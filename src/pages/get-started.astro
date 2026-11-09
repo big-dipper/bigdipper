@@ -9,6 +9,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="kicker">Get your Little Dipper</div>
     <h1 style="font-size: clamp(36px, 5vw, 52px)">Your own Little Dipper in about ten minutes.</h1>
     <p class="lede">You’ll set up a small server with Railway, a hosting company, then claim it so it’s yours. This page walks you through it.</p>
+    <p id="invited" class="band" style="margin-top: 18px" hidden></p>
   </div>
 
   <div class="narrow">
@@ -70,6 +71,29 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     localStorage.setItem(CODE, c);
     return c;
   })();
+  // Came from someone's invite: keep it in this browser like the claim code, so your new Little Dipper can offer
+  // to connect with them as soon as you're set up. Only a Little Dipper invite link is kept.
+  const INVITE = 'bigdipper.invite';
+  const given = new URLSearchParams(location.search).get('invite');
+  const inviteUrl = (() => {
+    try {
+      const u = new URL(given || '');
+      return /^https?:$/.test(u.protocol) && u.pathname === '/connect' && u.searchParams.get('invite') ? u.toString() : null;
+    } catch { return null; }
+  })();
+  if (inviteUrl) localStorage.setItem(INVITE, inviteUrl);
+  const invite = localStorage.getItem(INVITE);
+  const invited = document.getElementById('invited');
+  if (invite && invited) {
+    const u = new URL(invite);
+    const say = (who: string) => { invited.textContent = `${who} invited you to connect. When your Little Dipper is set up, it will offer to connect with them straight away.`; invited.hidden = false; };
+    say(`Someone at ${u.host}`);
+    fetch(`${u.origin}/public/invites/${encodeURIComponent(u.searchParams.get('invite') || '')}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { displayName?: string | null } | null) => { if (d?.displayName) say(d.displayName); })
+      .catch(() => {});
+  }
+
   const deploy = document.getElementById('deploy') as HTMLAnchorElement | null;
   if (deploy) {
     const u = new URL(deploy.href);

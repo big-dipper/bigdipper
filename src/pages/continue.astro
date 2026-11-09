@@ -46,7 +46,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     if (!d || d.kind !== 'node') return show('That isn’t a Little Dipper', `Nothing at ${nodeOrigin.replace(/^https?:\/\//, '')} answers as a Little Dipper. Open yours from Railway and try again.`);
     if (d.claimed) return show('This Little Dipper already has an owner', 'If it’s yours, sign in at its address.');
     show('Ready when you are', `Continue to ${nodeOrigin.replace(/^https?:\/\//, '')}. Check it’s the address Railway shows for your Little Dipper.`);
-    go.href = `${nodeOrigin}/claim?token=${encodeURIComponent(code)}`;
+    // An invite kept from Get Started goes along, so the new Little Dipper can offer to connect once you're in.
+    const invite = localStorage.getItem('bigdipper.invite');
+    go.href = `${nodeOrigin}/claim?token=${encodeURIComponent(code)}${invite ? `&invite=${encodeURIComponent(invite)}` : ''}`;
+    if (invite) go.addEventListener('click', () => localStorage.removeItem('bigdipper.invite'));
     goWrap.hidden = false;
   }
   void run();
