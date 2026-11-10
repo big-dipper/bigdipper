@@ -35,8 +35,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     if (!nodeOrigin) return show('Something’s missing', 'Open your Little Dipper and click Finish setting up from there.');
     const code = localStorage.getItem(CODE);
     if (!code) {
-      return show('This browser doesn’t have your claim code',
-        'Did you set up from a different browser or device? Finish there, or go back to your Little Dipper and paste the code from Railway: open your Little Dipper, then Variables → LD_CLAIM_TOKEN.');
+      // Set up from another browser or device: back to the Little Dipper, with its by-hand steps already open.
+      show('We couldn’t finish automatically', 'That’s usually because you started in a different browser or on another device. Your Little Dipper will show you how to finish by hand. It takes a minute.');
+      go.textContent = 'Back to my Little Dipper';
+      go.href = `${nodeOrigin}/claim?help=1`;
+      goWrap.hidden = false;
+      return;
     }
     let d: { kind?: string; claimed?: boolean } | null = null;
     try {
