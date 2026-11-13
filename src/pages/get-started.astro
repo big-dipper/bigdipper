@@ -31,7 +31,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <li>
           <div>
             <h3>Create your Railway account</h3>
-            <p>Railway is the hosting company your Little Dipper runs on. Sign up in the new tab that opens, then come back to this one: this page stays here. If Railway asks you to pick a plan, choose <strong>Hobby</strong>.</p>
+            <p>Railway is the hosting company your Little Dipper runs on. Sign up in the new tab that opens, then come back to this one: this page stays here.</p>
+            <p class="note" style="margin-top: 8px">You start on Railway’s free trial (30 days or $5 of use). That’s enough to set up and try your Little Dipper. To keep it running after that, add a card in Railway and choose the <strong>Hobby</strong> plan ({RAILWAY_MONTHLY} a month).</p>
             <p style="margin-top: 14px"><a class="btn btn-secondary btn-lg" href="https://railway.com/login" target="_blank" rel="noopener">Create a Railway account</a></p>
             <p class="note" style="margin-top: 8px">Already have one? Skip to the next step. Use the account you want to pay for this with.</p>
           </div>
@@ -39,7 +40,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <li>
           <div>
             <h3>Set it up on Railway</h3>
-            <p>Signed in to Railway? Click <strong>Deploy</strong>: you don’t need to change anything. It takes about two minutes.</p>
+            <p>Signed in to Railway? Click <strong>Deploy</strong>. Skip <strong>Configure</strong>: you don’t need to change anything. It takes about a minute.</p>
             {RAILWAY_TEMPLATE_URL
               ? <p style="margin-top: 14px"><a id="deploy" class="btn btn-primary btn-lg" href={RAILWAY_TEMPLATE_URL} target="_blank" rel="noopener">Deploy on Railway</a></p>
               : <p class="note" style="margin-top: 10px"><span class="tag tag-accent">Almost ready</span> The Railway button arrives with the first release. Ask the person who invited you.</p>}
