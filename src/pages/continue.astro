@@ -55,6 +55,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     go.href = `${nodeOrigin}/claim?token=${encodeURIComponent(code)}${invite ? `&invite=${encodeURIComponent(invite)}` : ''}`;
     if (invite) go.addEventListener('click', () => localStorage.removeItem('bigdipper.invite'));
     goWrap.hidden = false;
+    // The node proves it's the one this browser's code was made for (a hash of the code's hash, so the code itself
+    // never travels until we send you there). Then there's nothing to check: carry on by yourself.
+    const check = (d as { setupCheck?: string }).setupCheck;
+    if (check && check === (await sha256hex(`ld-setup-check:${await sha256hex(code)}`))) {
+      show('Taking you back to your Little Dipper…', `${nodeOrigin.replace(/^https?:\/\//, '')} · this is the one you set up from this page.`);
+      go.textContent = 'Continue now';
+      if (invite) localStorage.removeItem('bigdipper.invite');
+      setTimeout(() => location.replace(go.href), 1200);
+    }
+  }
+  async function sha256hex(s: string) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, '0')).join('');
   }
   void run();
 </script>
