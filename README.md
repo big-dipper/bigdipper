@@ -1,6 +1,6 @@
 # Big Dipper
 
-The public home of [Little Dipper](https://github.com/bryanhollingshead/littledipper), a personal data store you run on your own server.
+The public home of [Little Dipper](https://github.com/big-dipper/littledipper), a personal data store you run on your own server.
 
 This site helps people get their own Little Dipper: what it is, a one-click setup on Railway, and step-by-step guides. Later it will host the API specification.
 
