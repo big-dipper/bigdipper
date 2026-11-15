@@ -1,51 +1,94 @@
 ---
 import Base from '../layouts/Base.astro';
+import Sky from '../components/Sky.astro';
+import { RAILWAY_MONTHLY } from '../lib/config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// What a Little Dipper holds, grouped the way a person thinks of it. Matches the record types in Little Dipper's catalog.
+const cats: [string, string][] = [
+  ['Who you are', 'Names, birth, IDs and passports, citizenship.'],
+  ['Where you’ve been', 'Every home, job, school and trip, with dates. The form that asks for “every address for the last five years” takes a minute.'],
+  ['Your health', 'Conditions, medications, allergies, immunizations, lab results.'],
+  ['Your money', 'Accounts, income, transactions, tax returns, receipts.'],
+  ['What you own', 'Homes, vehicles, valuables, and the insurance on them.'],
+  ['Your people and pets', 'Relationships, contacts, memberships and loyalty programs.'],
+  ['Your documents and dates', 'Each scan kept with its record. Birthdays, renewals and expiry dates on your calendar.'],
+];
 ---
-<Base title="Little Dipper: your life's records, on a server you own" description="Little Dipper keeps your documents, records and dates in one place, on your own server, and shares exactly what you choose with people you know.">
-  <div class="wrap hero">
-    <div class="kicker">Little Dipper · friends and family beta</div>
-    <h1>Your life’s paperwork, in one place you own.</h1>
-    <p class="lede">
-      Little Dipper keeps your documents, records and important dates together, on a small server that belongs to you.
-      Share exactly what you choose with the people you know, and take it back whenever you like.
-    </p>
-    <div class="actions">
-      <a class="btn btn-primary btn-lg" href={`${base}/get-started`}>Get your Little Dipper</a>
-      <a class="btn btn-secondary btn-lg" href="#how">How it works</a>
+<Base night title="Little Dipper: life management for the AI era" description="Little Dipper is a private home for all of your life’s data, on a server that belongs to you. Free, open-source software; you pay the host, usually about $5 a month.">
+  <div class="night-hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="kicker">Friends and family beta</div>
+        <div class="wordmark">Little Dipper</div>
+        <h1>Life management for the AI&nbsp;era.</h1>
+        <p class="lede">A private home for all of your life’s data, on a server that belongs to you.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" href={`${base}/get-started`}>Get your Little Dipper</a>
+          <a class="btn btn-ghost btn-lg" href="#what">See what it holds</a>
+        </div>
+      </div>
+      <Sky />
     </div>
   </div>
+  <div class="dawn" aria-hidden="true"></div>
 
-  <section class="wrap">
-    <div class="kicker">Useful on day one, just for you</div>
-    <h2>Everything you’re always looking for</h2>
-    <div class="grid" style="margin-top: 20px">
-      <div class="tile"><h3>Records of your life</h3><p>Addresses, jobs, schooling, IDs, insurance, vehicles, pets and more, with when each one applied. The forms that ask “every address for the last five years” stop being a scramble.</p></div>
-      <div class="tile"><h3>Documents with them</h3><p>Scan or upload the passport, the policy, the title, and keep it with the record it belongs to.</p></div>
-      <div class="tile"><h3>Dates that matter</h3><p>A calendar with your events plus the dates already in your records: birthdays, renewals, passport expiry, warranty ends.</p></div>
-      <div class="tile"><h3>Receipts that count</h3><p>Keep receipts for taxes, returns and warranties, and find them when you need them.</p></div>
+  <section class="wrap" id="what">
+    <div class="kicker">Everything about your life, in one place</div>
+    <h2>The things you’re always looking for</h2>
+    <div class="cats">
+      {cats.map(([h, p]) => <div class="cat"><h3>{h}</h3><p>{p}</p></div>)}
+    </div>
+  </section>
+
+  <section class="wrap" id="deal">
+    <div class="kicker">A different deal</div>
+    <h2>Your data is never the product</h2>
+    <div class="deal">
+      <div class="them">
+        <h3>Most free apps</h3>
+        <p>are paid for with your data. It’s mined, profiled and sold to advertisers.</p>
+      </div>
+      <div class="us">
+        <h3>Little Dipper</h3>
+        <p>is free, open-source software. You pay a hosting company directly, <strong>{RAILWAY_MONTHLY} a month</strong>. No ads, no tracking, and no one in the middle.</p>
+      </div>
     </div>
   </section>
 
   <section class="wrap">
-    <div class="band">
-      <div class="kicker">Then, with people you know</div>
-      <h2>Share what you choose. Take it back any time.</h2>
-      <p class="lede" style="font-size: 18px">
-        Connect your Little Dipper with family and friends who have one. Give your partner your insurance details, your sister your new address,
-        your accountant a link to last year’s tax return. Each share is yours to change or end, and you can see who looked at what.
-      </p>
-      <p class="note">There’s no public directory and no feed. People connect only with people they already know.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="kicker">Yours from the start</div>
+        <h3>Your own server, without being a server person</h3>
+        <p>Set it up in minutes with one button. No technical skills needed. Sign in with a passkey (your face or fingerprint), and it keeps itself up to date.</p>
+      </div>
+      <div class="pillar">
+        <div class="kicker">Your AI, working for you</div>
+        <h3>Invite an assistant to keep it organized</h3>
+        <p>Invite Claude, Muse or another assistant to keep your records organized and up to date. Have it file a receipt, log a new job or remember a renewal date. You decide what it can see and do. Everything it adds waits for your OK, and every action goes into a log you can read.</p>
+        <p class="soon">Coming: let it act on your behalf, within limits you set.</p>
+      </div>
+      <div class="pillar">
+        <div class="kicker">Sharing</div>
+        <h3>Share with total control</h3>
+        <p>Connect with other Little Dippers, or send anyone a link. Share exactly what you choose, see who looked, and take it back whenever you like.</p>
+      </div>
+      <div class="pillar">
+        <div class="kicker">Big Dipper, when you want it</div>
+        <h3>Help without handing anything over</h3>
+        <p>Connect to Big Dipper for help with upgrades, support and, later, third-party verification, so you can prove something about yourself without handing over the data itself. It’s optional, and Big Dipper never holds your data or your keys.</p>
+      </div>
     </div>
   </section>
 
   <section class="wrap" id="how">
     <div class="kicker">How it works</div>
-    <h2>Your own server, without being a server person</h2>
+    <h2>From nothing to your own Little Dipper</h2>
     <ol class="steps" style="margin-top: 20px; max-width: 760px">
-      <li><div><h3>Start one in a few minutes</h3><p>One button sets up your Little Dipper with Railway, a hosting company. You pay them directly, about $5 a month. Big Dipper doesn’t charge you anything. Prefer another cloud provider, or a computer at home? Little Dipper runs there too.</p></div></li>
+      <li><div><h3>Start one with a button</h3><p>Little Dipper sets itself up with Railway, a hosting company. You pay them directly, {RAILWAY_MONTHLY} a month. Big Dipper doesn’t charge you anything. Prefer another cloud provider, or a computer at home? Little Dipper runs there too.</p></div></li>
       <li><div><h3>Make it yours with a passkey</h3><p>Sign in with your face, fingerprint, device PIN or a security key. No password to forget.</p></div></li>
-      <li><div><h3>It keeps itself up to date</h3><p>New versions install overnight, after a backup.</p></div></li>
+      <li><div><h3>Fill it as you go</h3><p>Add things yourself, or invite your AI assistant to help. Nothing has to be done all at once.</p></div></li>
       <li><div><h3>Keep a copy at home</h3><p>Little Dipper reminds you to save backups to your own computer, and your recovery kit lets you move it to a new server at any time.</p></div></li>
     </ol>
   </section>
@@ -57,6 +100,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <li><strong>This is a beta</strong> for friends and family. Expect rough edges, and tell us about them.</li>
       <li><strong>Your server, your responsibility.</strong> Keep your recovery codes and recovery kit somewhere safe. Nobody, including us, can unlock your Little Dipper without them.</li>
       <li><strong>The hosting company runs the hardware.</strong> Your data is encrypted where it matters most, but whoever runs a server can physically reach it. You can move to another host or a device at home whenever you like.</li>
+      <li><strong>What your AI assistant reads goes to its company.</strong> Connecting one is your choice, and you can disconnect it any time.</li>
       <li><strong>Big Dipper never sees your data.</strong> This site has no accounts and no database. It points you to the tools and gets out of the way.</li>
     </ul>
     <div class="actions"><a class="btn btn-primary btn-lg" href={`${base}/get-started`}>Get your Little Dipper</a></div>

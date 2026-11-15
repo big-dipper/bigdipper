@@ -1,6 +1,6 @@
 /* Organic, the design system Little Dipper uses, with Little Dipper's palette. Copied from
    littledipper/web/src/styles (organic.css, then the palette from app.css) so the site and the app look like one product. */
-@import url('https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap');
+/* Fonts are self-hosted (imported in Base.astro), so the site makes no requests to a font service. */
 
 :root {
   --color-bg: #f5ead8;

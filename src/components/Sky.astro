@@ -1,0 +1,53 @@
+---
+/**
+ * The home page's night sky: the Big Dipper's two pointer stars lead to Polaris, the tip of the Little Dipper's
+ * handle. Big Dipper points you to your Little Dipper; your Little Dipper holds your North Star.
+ * Drawn, not photographed; background stars come from a fixed seed so the sky is the same on every visit.
+ */
+type P = [number, number];
+const big: Record<string, P> = {
+  alkaid: [52, 300], mizar: [104, 268], alioth: [150, 258], megrez: [196, 250],
+  phecda: [186, 318], merak: [252, 330], dubhe: [272, 262],
+};
+const polaris: P = [327, 75]; // on the line from Merak through Dubhe, as in the real sky
+const little: P[] = [polaris, [373, 93], [413, 119], [445, 155], [503, 141], [523, 187], [467, 201], [445, 155]];
+const bigLines: P[] = [big.alkaid, big.mizar, big.alioth, big.megrez, big.dubhe, big.merak, big.phecda, big.megrez];
+const path = (pts: P[]) => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ');
+
+// A small fixed-seed generator, so the scattered stars never move between builds.
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const dust = Array.from({ length: 70 }, () => ({ x: rand() * 600, y: rand() * 400, r: 0.4 + rand() * 1.1, o: 0.25 + rand() * 0.5, d: (rand() * 6).toFixed(1) }));
+---
+<svg class="sky" viewBox="0 0 600 400" role="img" aria-label="The Big Dipper's pointer stars leading to Polaris, the tip of the Little Dipper's handle">
+  <defs>
+    <radialGradient id="glow"><stop offset="0" stop-color="#ffe7b8" stop-opacity="0.9" /><stop offset="1" stop-color="#ffe7b8" stop-opacity="0" /></radialGradient>
+  </defs>
+  <g class="dust">{dust.map((s) => <circle cx={s.x} cy={s.y} r={s.r} opacity={s.o} style={`animation-delay:${s.d}s`} />)}</g>
+  <path class="figure" d={path(bigLines)} />
+  <path class="figure little" d={path(little)} />
+  <path class="pointer" d={path([big.merak, polaris])} />
+  {Object.values(big).map(([x, y]) => <circle class="star" cx={x} cy={y} r="3.4" />)}
+  {little.slice(1, 7).map(([x, y]) => <circle class="star" cx={x} cy={y} r="2.8" />)}
+  <circle cx={polaris[0]} cy={polaris[1]} r="26" fill="url(#glow)" class="polaris-glow" />
+  <circle cx={polaris[0]} cy={polaris[1]} r="5" fill="#fff4dc" />
+  <text x={polaris[0] + 14} y={polaris[1] - 12} class="label">Polaris</text>
+</svg>
+
+<style>
+  .sky { width: 100%; height: auto; display: block; overflow: visible; }
+  .dust circle { fill: #e9e6df; animation: twinkle 6s ease-in-out infinite; }
+  .figure { fill: none; stroke: #8fb2dc; stroke-opacity: 0.35; stroke-width: 1.2; stroke-linejoin: round; }
+  .figure.little { stroke: #7cc4b6; }
+  .pointer { fill: none; stroke: #ffe7b8; stroke-opacity: 0.7; stroke-width: 1.2; stroke-dasharray: 3 7; opacity: 0; animation: appear 1.8s ease-out 0.5s forwards; }
+  .star { fill: #e9e6df; }
+  .polaris-glow { animation: breathe 5s ease-in-out infinite; transform-origin: 327px 75px; }
+  .label { fill: #ffe7b8; font-size: 12px; letter-spacing: 0.08em; font-family: var(--font-body); opacity: 0.8; }
+  @keyframes twinkle { 50% { opacity: 0.15; } }
+  @keyframes appear { to { opacity: 1; } }
+  @keyframes breathe { 50% { transform: scale(1.25); opacity: 0.7; } }
+  @media (prefers-reduced-motion: reduce) {
+    .dust circle, .polaris-glow { animation: none; }
+    .pointer { animation: none; opacity: 1; }
+  }
+</style>
