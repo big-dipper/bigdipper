@@ -1,4 +1,4 @@
-# Render Blueprint: Big Dipper is a static site (no server, no database).
+# Render Blueprint: the static site, and the service Little Dippers connect to.
 # Render → New → Blueprint → this repo. Every push to main redeploys.
 services:
   - type: web
@@ -16,3 +16,34 @@ services:
       - path: /*
         name: X-Content-Type-Options
         value: nosniff
+
+  # Big Dipper's service: what Little Dippers connect to (service/). Separate from the site, so the site stays static.
+  - type: web
+    name: big-dipper-service
+    runtime: node
+    plan: starter
+    rootDir: service
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Big Dipper's identity comes from this. Render makes it; never change it (Little Dippers remember the identity).
+      - key: BD_IDENTITY_SECRET
+        generateValue: true
+      # Where feedback goes. Set in the dashboard: the API key is a secret, the rest are workspace details.
+      - key: LINEAR_API_KEY
+        sync: false
+      - key: LINEAR_TEAM_ID
+        sync: false
+      - key: LINEAR_LABELS
+        sync: false
+      - key: LINEAR_LABEL_BUG
+        sync: false
+      - key: LINEAR_LABEL_IDEA
+        sync: false
+      - key: LINEAR_LABEL_QUESTION
+        sync: false
+      - key: LINEAR_LABEL_OTHER
+        sync: false

@@ -1,0 +1,21 @@
+{
+  "name": "big-dipper-service",
+  "private": true,
+  "type": "module",
+  "description": "Big Dipper's service: what Little Dippers connect to. First capability: feedback, filed in Linear.",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "check": "tsc --noEmit -p .",
+    "sync-kit": "sh scripts/sync-kit.sh"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "fastify": "^5.12.7",
+    "tsx": "^4.23.15"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "5.9"
+  }
+}
