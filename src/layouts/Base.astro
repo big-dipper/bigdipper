@@ -1,5 +1,4 @@
 ---
-import Logo from '../components/Logo.astro';
 import '@fontsource/caprasimo/400.css';
 import '@fontsource/figtree/400.css';
 import '@fontsource/figtree/600.css';
@@ -31,7 +30,7 @@ const nav = [
   <body class={night ? 'night-top' : undefined}>
     <div class="topbar">
       <header class="wrap top">
-        <a class="brand" href={`${base}/`}><Logo /> Big Dipper</a>
+        <a class="brand" href={`${base}/`}>Big Dipper</a>
         <nav>
           {nav.map(([label, href]) => <a href={href} aria-current={here === href ? 'page' : undefined}>{label}</a>)}
           <a class="btn btn-primary nav-cta" href={`${base}/get-started`}>Get your Little Dipper</a>
