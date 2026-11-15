@@ -49,8 +49,9 @@ footer a { color: inherit; }
 .nav-cta { font-size: 14px; padding: 8px 16px; margin-left: 6px; }
 .night-top .nav-cta { background: #8fb2dc; color: #11161f; }
 .night-top .nav-cta:hover { background: #b3c8df; }
-.night-hero { padding: 24px 0 0; }
-.night-hero .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 32px; align-items: center; padding-bottom: 72px; }
+.night-hero { position: relative; overflow: hidden; padding: 0; min-height: min(640px, 82vh); display: flex; align-items: center; }
+.night-hero .wrap { position: relative; z-index: 1; }
+.night-hero .hero-grid { display: grid; grid-template-columns: minmax(0, 560px); padding: 40px 0 90px; }
 .night-hero h1 { color: #fff; font-size: clamp(40px, 5.6vw, 64px); max-width: 16ch; text-wrap: balance; }
 .night-hero .lede { color: #c9c6be; }
 .night-hero .kicker { color: #7cc4b6; }
@@ -60,7 +61,7 @@ footer a { color: inherit; }
 .night-hero .btn-ghost { color: #e9e6df; border: 1px solid #3a4558; background: transparent; }
 .night-hero .btn-ghost:hover { background: #1b2230; }
 .dawn { height: 140px; background: linear-gradient(#11161f, #26304a 30%, #8b8fa6 58%, #e3d6c4 82%, var(--color-bg)); }
-@media (max-width: 760px) { .night-hero .hero-grid { grid-template-columns: 1fr; } .night-hero .sky { max-width: 420px; margin-inline: auto; } }
+
 
 /* Home sections */
 .cats { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); margin-top: 22px; }
@@ -134,3 +135,7 @@ footer a { color: inherit; }
 .screen-bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--color-neutral-100); opacity: 0.8; }
 .screen img { display: block; width: 100%; height: auto; border-radius: 0 0 14px 14px; box-shadow: 0 10px 30px -12px rgba(28, 34, 48, 0.35); border: 1px solid var(--color-neutral-300); border-top: 0; }
 .screen figcaption { font-size: 14px; color: var(--color-neutral-800); margin-top: 8px; }
+.night-hero > .sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.night-hero > .wrap { width: min(1080px, 100% - 40px); }
+.night-top .topbar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; background: transparent; }
+.night-top .night-hero { padding-top: 80px; min-height: min(720px, 90vh); }
