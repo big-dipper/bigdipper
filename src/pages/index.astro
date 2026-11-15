@@ -1,18 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import Sky from '../components/Sky.astro';
+import DomainIcon from '../components/DomainIcon.astro';
 import { RAILWAY_MONTHLY } from '../lib/config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // What a Little Dipper holds, grouped the way a person thinks of it. Matches the record types in Little Dipper's catalog.
-const cats: [string, string][] = [
-  ['Who you are', 'Names, birth, IDs and passports, citizenship.'],
-  ['Where you’ve been', 'Every home, job, school and trip, with dates. The form that asks for “every address for the last five years” takes a minute.'],
-  ['Your health', 'Conditions, medications, allergies, immunizations, lab results.'],
-  ['Your money', 'Accounts, income, transactions, tax returns, receipts.'],
-  ['What you own', 'Homes, vehicles, valuables, and the insurance on them.'],
-  ['Your people and pets', 'Relationships, contacts, memberships and loyalty programs.'],
-  ['Your documents and dates', 'Each scan kept with its record. Birthdays, renewals and expiry dates on your calendar.'],
+// tone: which soft color the tile takes, so the grid reads at a glance.
+const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
+  { icon: 'identity', title: 'Who you are', tone: 'navy', items: ['Names', 'Birth', 'IDs & passports', 'Citizenship'] },
+  { icon: 'journey', title: 'Where you’ve been', tone: 'teal', items: ['Addresses', 'Jobs', 'Schools', 'Travel'] },
+  { icon: 'health', title: 'Your health', tone: 'rose', items: ['Conditions', 'Medications', 'Allergies', 'Immunizations', 'Lab results'] },
+  { icon: 'money', title: 'Your money', tone: 'ochre', items: ['Accounts', 'Income', 'Transactions', 'Tax returns', 'Receipts'] },
+  { icon: 'belongings', title: 'What you own', tone: 'clay', items: ['Homes', 'Vehicles', 'Valuables', 'Insurance'] },
+  { icon: 'people', title: 'People & pets', tone: 'plum', items: ['Family', 'Friends', 'Pets', 'Memberships'] },
+  { icon: 'documents', title: 'Documents', tone: 'sage', items: ['Scans', 'Certificates', 'Contracts', 'Legal papers'] },
+  { icon: 'dates', title: 'Dates', tone: 'sky', items: ['Birthdays', 'Renewals', 'Expiry dates', 'Events'] },
 ];
 ---
 <Base night title="Little Dipper: life management for the AI era" description="Little Dipper is a private home for all of your life’s data, on a server that belongs to you. Free, open-source software; you pay the host, usually about $5 a month.">
@@ -36,8 +39,15 @@ const cats: [string, string][] = [
   <section class="wrap" id="what">
     <div class="kicker">Everything about your life, in one place</div>
     <h2>The things you’re always looking for</h2>
+    <p class="note" style="margin-top: -4px">Every address for the last five years? Your passport number? Last year’s tax return? A minute, not an afternoon.</p>
     <div class="cats">
-      {cats.map(([h, p]) => <div class="cat"><h3>{h}</h3><p>{p}</p></div>)}
+      {cats.map((c) => (
+        <div class={`cat tone-${c.tone}`}>
+          <span class="cat-icon"><DomainIcon name={c.icon} size={34} /></span>
+          <h3>{c.title}</h3>
+          <ul class="chips">{c.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
     </div>
   </section>
 

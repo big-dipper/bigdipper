@@ -63,10 +63,21 @@ footer a { color: inherit; }
 @media (max-width: 760px) { .night-hero .hero-grid { grid-template-columns: 1fr; } .night-hero .sky { max-width: 420px; margin-inline: auto; } }
 
 /* Home sections */
-.cats { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 22px; }
-.cat { background: var(--color-neutral-100); border: 1px solid var(--color-divider); border-radius: 24px; padding: 18px 20px; }
-.cat h3 { font-size: 18px; margin-bottom: 4px; }
-.cat p { margin: 0; font-size: 15px; color: var(--color-neutral-800); }
+.cats { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); margin-top: 22px; }
+@media (max-width: 920px) { .cats { grid-template-columns: repeat(2, 1fr); } }
+.cat { --tint: var(--color-accent-100); --ink: var(--color-accent-700); background: var(--tint); border-radius: 26px; padding: 20px 20px 18px; }
+.cat-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 18px; background: var(--color-neutral-100); color: var(--ink); --icon-fill: color-mix(in srgb, var(--ink) 18%, transparent); margin-bottom: 12px; box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 12%, transparent); }
+.cat h3 { font-size: 19px; margin-bottom: 10px; }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--color-neutral-100) 75%, transparent); color: color-mix(in srgb, var(--ink) 80%, var(--color-text)); }
+.tone-navy { --tint: #e9eff7; --ink: #24496e; }
+.tone-teal { --tint: #e3f1ed; --ink: #225a52; }
+.tone-rose { --tint: #f7e6e6; --ink: #8a3a45; }
+.tone-ochre { --tint: #f6edd8; --ink: #7a5612; }
+.tone-clay { --tint: #f6e5da; --ink: #8f4527; }
+.tone-plum { --tint: #efe4ee; --ink: #5e2f5a; }
+.tone-sage { --tint: #e9eedf; --ink: #4c5f37; }
+.tone-sky { --tint: #e4eef6; --ink: #2d5f86; }
 .deal { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
 .deal > div { border-radius: 24px; padding: 22px 24px; }
 .deal .them { background: var(--color-neutral-200); color: var(--color-neutral-800); }
