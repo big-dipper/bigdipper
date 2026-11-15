@@ -105,16 +105,28 @@ const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
 
   <section class="wrap">
     <div class="share-band">
-      <div>
+      <div class="share-intro">
         <div class="kicker">Sharing</div>
         <h2>Share with total control</h2>
         <p>Connect with other Little Dippers, or send anyone a link.</p>
+        <ul class="share-points">
+          <li><strong>Exactly what you choose,</strong> and nothing else</li>
+          <li><strong>See who looked</strong> and when</li>
+          <li><strong>Take it back</strong> whenever you like</li>
+        </ul>
       </div>
-      <ul class="share-points">
-        <li><strong>Exactly what you choose,</strong> and nothing else</li>
-        <li><strong>See who looked</strong> and when</li>
-        <li><strong>Take it back</strong> whenever you like</li>
-      </ul>
+      <div class="screens">
+        <figure class="screen">
+          <div class="screen-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src={`${base}/screens/share-ask.png`} width="900" height="340" loading="lazy" alt="Theo asks to connect and also asks for your home address. That's a box you can leave unticked, and you can change what Theo sees any time." />
+          <figcaption><strong>They ask, you decide.</strong> Theo asks for your home address too. Leave it unticked and Theo won’t get it.</figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src={`${base}/screens/share-categories.png`} width="890" height="380" loading="lazy" alt="Each category of your life with Off, Current and All: share only your current address, or every address you've had, or nothing." />
+          <figcaption><strong>Category by category.</strong> Off, just what’s current, or all of it. Changes apply right away.</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
