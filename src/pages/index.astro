@@ -52,19 +52,35 @@ const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
   </section>
 
   <section class="wrap" id="deal">
-    <div class="kicker">A different kind of deal</div>
-    <h2>Keep the apps you love. Keep one place that’s only yours.</h2>
-    <div class="deal">
-      <div class="them">
-        <h3>Most free apps</h3>
-        <p>are paid for by advertising, and your data helps cover the bill. It’s a fair trade for a lot of what we use every day.</p>
+    <div class="kicker kicker-lg">A different kind of deal</div>
+    <h2>Free software. Your choice of home.</h2>
+    <p class="lede" style="font-size: 18px">Little Dipper is free and open source. It runs on a server that’s yours, in the cloud or on a computer at home, and answers only to you. No ads, and no one in the middle.</p>
+    <div class="homes">
+      <div class="home-card featured">
+        <div class="home-head">
+          <span class="home-icon"><DomainIcon name="cloud" size={34} /></span>
+          <div><h3>In the cloud</h3><span class="badge">Easiest · no technical skills</span></div>
+        </div>
+        <p class="price"><strong>{RAILWAY_MONTHLY[0].toUpperCase() + RAILWAY_MONTHLY.slice(1)} a month</strong>, paid straight to the hosting company. Nothing to us.</p>
+        <ol class="mini-steps">
+          <li>Press one button</li>
+          <li>Make an account with the host</li>
+          <li>Claim it with your passkey</li>
+        </ol>
+        <p class="small">About ten minutes, and we walk you through every screen.</p>
+        <a class="btn btn-lg cloud-cta" href={`${base}/get-started`}>Get your Little Dipper</a>
       </div>
-      <div class="us">
-        <h3>Little Dipper</h3>
-        <p>works the other way round. It’s free, open-source software, and you pay a hosting company directly, <strong>{RAILWAY_MONTHLY} a month</strong>. It answers only to you: no ads and no one in the middle.</p>
+      <div class="move" aria-hidden="true"><span>⇄</span></div>
+      <div class="home-card">
+        <div class="home-head">
+          <span class="home-icon"><DomainIcon name="computer" size={34} /></span>
+          <div><h3>On your own computer</h3><span class="badge quiet">For the technically comfortable</span></div>
+        </div>
+        <p class="price"><strong>Free to run</strong> on hardware you already own: a spare computer, a Mac mini, a home server.</p>
+        <p class="small">Today this route uses Docker, so it takes some technical know-how. <a href="https://github.com/big-dipper/littledipper#readme">How to run it at home</a></p>
       </div>
     </div>
-    <p class="note" style="margin-top: 14px">Little Dipper sits alongside the apps and AI you already use. It’s where everything about your life comes together.</p>
+    <p class="move-note"><strong>Move between them whenever you like.</strong> Your recovery kit packs everything up, and your Little Dipper picks up where it left off.</p>
   </section>
 
   <section class="wrap" id="ai">
@@ -88,17 +104,17 @@ const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
   </section>
 
   <section class="wrap">
-    <div class="pillars">
-      <div class="pillar">
-        <div class="kicker">Yours from the start</div>
-        <h3>Your own server, without being a server person</h3>
-        <p>Set it up in minutes with one button. No technical skills needed. Sign in with a passkey (your face or fingerprint), and it keeps itself up to date.</p>
-      </div>
-      <div class="pillar">
+    <div class="share-band">
+      <div>
         <div class="kicker">Sharing</div>
-        <h3>Share with total control</h3>
-        <p>Connect with other Little Dippers, or send anyone a link. Share exactly what you choose, see who looked, and take it back whenever you like.</p>
+        <h2>Share with total control</h2>
+        <p>Connect with other Little Dippers, or send anyone a link.</p>
       </div>
+      <ul class="share-points">
+        <li><strong>Exactly what you choose,</strong> and nothing else</li>
+        <li><strong>See who looked</strong> and when</li>
+        <li><strong>Take it back</strong> whenever you like</li>
+      </ul>
     </div>
   </section>
 
