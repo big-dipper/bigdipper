@@ -6,3 +6,5 @@ export const RAILWAY_TEMPLATE_URL = `https://railway.com/deploy/otW6sk?referralC
 export const RAILWAY_SIGNUP_URL = `https://railway.com/?referralCode=${RAILWAY_REFERRAL}`;
 /** What a Little Dipper costs on Railway each month, shown before anyone starts. Confirm after the first real deploy. */
 export const RAILWAY_MONTHLY = 'about $5';
+/** The shared demo: one click signs you in as Maya. Refilled every hour (Little Dipper's scripts/demo.ts --hosted). */
+export const DEMO_URL = 'https://little-dipper-demo.onrender.com/api/auth/demo';

@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Sky from '../components/Sky.astro';
 import DomainIcon from '../components/DomainIcon.astro';
-import { RAILWAY_MONTHLY } from '../lib/config';
+import { DEMO_URL, RAILWAY_MONTHLY } from '../lib/config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // What a Little Dipper holds, grouped the way a person thinks of it. Matches the record types in Little Dipper's catalog.
@@ -29,7 +29,7 @@ const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
         <p class="lede">A private home for all of your life’s data, on a server that belongs to you.</p>
         <div class="actions">
           <a class="btn btn-primary btn-lg" href={`${base}/get-started`}>Get your Little Dipper</a>
-          <a class="btn btn-ghost btn-lg" href="#what">See what it holds</a>
+          <a class="btn btn-ghost btn-lg" href={DEMO_URL}>Try the demo</a>
         </div>
       </div>
     </div>
