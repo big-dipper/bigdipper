@@ -1,91 +1,93 @@
 ---
 /**
- * The home page's night sky, full width behind the opening words. The Big Dipper's pointer stars (Merak, then
- * Dubhe) lead to Polaris, the tip of the Little Dipper's handle: Big Dipper points you to your Little Dipper, and
- * your Little Dipper holds your North Star. Drawn, not photographed; the background stars come from a fixed seed,
- * so the sky is the same on every visit.
+ * The home page's night sky, full width behind the opening words: a dense field of stars, the Milky Way, and the
+ * two dippers picked out only by a little more light. Polaris, the tip of the Little Dipper's handle, shines as a
+ * sparkle, the mark people know for AI: your Little Dipper holds your North Star, for the AI era.
+ * Drawn, not photographed; every star comes from a fixed seed, so the sky is the same on every visit.
  */
 type P = [number, number];
-const big = {
-  alkaid: [820, 575] as P, mizar: [902, 512] as P, alioth: [978, 482] as P, megrez: [1052, 466] as P,
-  phecda: [1046, 574] as P, merak: [1150, 604] as P, dubhe: [1172, 478] as P,
-};
+const bigDipper: P[] = [[820, 575], [902, 512], [978, 482], [1052, 466], [1046, 574], [1150, 604], [1172, 478]];
+const merak = bigDipper[5], dubhe = bigDipper[6];
 // Polaris sits on the line from Merak through Dubhe, as it does in the real sky.
-const k = 2.55;
-const polaris: P = [big.dubhe[0] + k * (big.dubhe[0] - big.merak[0]), big.dubhe[1] + k * (big.dubhe[1] - big.merak[1])];
-const little: P[] = [polaris, [1296, 184], [1352, 214], [1394, 262], [1474, 236], [1500, 304], [1418, 326], [1394, 262]];
-const bigLines: P[] = [big.alkaid, big.mizar, big.alioth, big.megrez, big.dubhe, big.merak, big.phecda, big.megrez];
-const path = (pts: P[]) => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+const px = dubhe[0] + 2.55 * (dubhe[0] - merak[0]), py = dubhe[1] + 2.55 * (dubhe[1] - merak[1]);
+const littleDipper: P[] = [[1296, 184], [1352, 214], [1394, 262], [1474, 236], [1500, 304], [1418, 326]];
+// How bright each star really is (magnitude: lower is brighter), so the shapes read as sky, not as dots.
+// Big Dipper: Alkaid, Mizar, Alioth, Megrez, Phecda, Merak, Dubhe. Little Dipper: Yildun, ε, ζ, Kochab, Pherkad, η.
+const bigMag = [1.9, 2.2, 1.8, 3.3, 2.4, 2.4, 1.8];
+const littleMag = [4.4, 4.2, 4.3, 2.1, 3.0, 5.0];
+const size = (m: number) => 4.3 - 0.55 * m;
 
 let seed = 11;
 const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-const tints = ['#ffffff', '#ffffff', '#ffffff', '#dfe8ff', '#fff1d6', '#cfe0f5'];
-const dust = Array.from({ length: 340 }, () => {
-  const bright = rand() > 0.93;
-  return { x: rand() * 1600, y: rand() * 720, r: bright ? 1.3 + rand() * 1.1 : 0.35 + rand() * 0.8, o: 0.25 + rand() * 0.6, c: tints[Math.floor(rand() * tints.length)], d: (rand() * 7).toFixed(1), tw: rand() > 0.6 };
+const gauss = () => Math.sqrt(-2 * Math.log(rand() + 1e-9)) * Math.cos(2 * Math.PI * rand());
+const tints = ['#ffffff', '#ffffff', '#ffffff', '#dfe8ff', '#fff1d6', '#cfe0f5', '#ffe9e0'];
+const tint = () => tints[Math.floor(rand() * tints.length)];
+
+// The field: scattered everywhere.
+const field = Array.from({ length: 900 }, () => {
+  const bright = rand() > 0.96;
+  return { x: rand() * 1600, y: rand() * 720, r: bright ? 1.1 + rand() * 0.9 : 0.25 + rand() * 0.6, o: 0.2 + rand() * 0.6, c: tint(), tw: rand() > 0.75, d: (rand() * 8).toFixed(1) };
 });
-const [px, py] = polaris;
+// The Milky Way: a crowd of faint stars along a band, thickest at its middle.
+const angle = (-24 * Math.PI) / 180, cos = Math.cos(angle), sin = Math.sin(angle);
+const band = Array.from({ length: 1700 }, () => {
+  const along = (rand() - 0.5) * 2000, across = gauss() * (55 + 35 * Math.cos((along / 1000) * Math.PI / 2));
+  return { x: 800 + along * cos - across * sin, y: 360 + along * sin + across * cos, r: 0.2 + rand() * 0.55, o: 0.15 + rand() * 0.5, c: tint() };
+});
+
+/** A four-pointed sparkle with curved sides, the mark people know for AI. */
+const sparkle = (cx: number, cy: number, r: number, w = 0.16) =>
+  `M${cx} ${cy - r} Q${cx + w * r} ${cy - w * r} ${cx + r} ${cy} Q${cx + w * r} ${cy + w * r} ${cx} ${cy + r} Q${cx - w * r} ${cy + w * r} ${cx - r} ${cy} Q${cx - w * r} ${cy - w * r} ${cx} ${cy - r}Z`;
 ---
 <svg class="sky" viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice" role="img"
-  aria-label="A night sky. The Big Dipper's two pointer stars lead to Polaris, the North Star, at the tip of the Little Dipper's handle.">
+  aria-label="A night sky full of stars, with the Milky Way, the Big Dipper and the Little Dipper. Polaris, the North Star, shines at the tip of the Little Dipper's handle.">
   <defs>
-    <radialGradient id="polaris-glow"><stop offset="0" stop-color="#fff4dc" stop-opacity="0.95" /><stop offset="0.25" stop-color="#ffe2a8" stop-opacity="0.45" /><stop offset="1" stop-color="#ffd27a" stop-opacity="0" /></radialGradient>
-    <radialGradient id="star-glow"><stop offset="0" stop-color="#ffffff" stop-opacity="0.7" /><stop offset="1" stop-color="#ffffff" stop-opacity="0" /></radialGradient>
-    <radialGradient id="haze"><stop offset="0" stop-color="#8fa8d8" stop-opacity="0.16" /><stop offset="1" stop-color="#8fa8d8" stop-opacity="0" /></radialGradient>
-    <linearGradient id="spike-h" x1="0" x2="1"><stop offset="0" stop-color="#fff4dc" stop-opacity="0" /><stop offset="0.5" stop-color="#fff4dc" stop-opacity="0.9" /><stop offset="1" stop-color="#fff4dc" stop-opacity="0" /></linearGradient>
-    <linearGradient id="spike-v" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff4dc" stop-opacity="0" /><stop offset="0.5" stop-color="#fff4dc" stop-opacity="0.9" /><stop offset="1" stop-color="#fff4dc" stop-opacity="0" /></linearGradient>
-    <linearGradient id="fade-left" x1="0" x2="1"><stop offset="0" stop-color="#0d1119" stop-opacity="0.75" /><stop offset="0.45" stop-color="#0d1119" stop-opacity="0.15" /><stop offset="1" stop-color="#0d1119" stop-opacity="0" /></linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="28" /></filter>
+    <filter id="softer" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10" /></filter>
+    <radialGradient id="polaris-glow"><stop offset="0" stop-color="#fff4dc" stop-opacity="0.9" /><stop offset="0.3" stop-color="#ffe2a8" stop-opacity="0.35" /><stop offset="1" stop-color="#ffd27a" stop-opacity="0" /></radialGradient>
+    <radialGradient id="sparkle-fill"><stop offset="0" stop-color="#ffffff" /><stop offset="0.5" stop-color="#fff4dc" /><stop offset="1" stop-color="#ffe2a8" stop-opacity="0.6" /></radialGradient>
+    <radialGradient id="star-glow"><stop offset="0" stop-color="#ffffff" stop-opacity="0.4" /><stop offset="1" stop-color="#ffffff" stop-opacity="0" /></radialGradient>
+    <linearGradient id="fade-left" x1="0" x2="1"><stop offset="0" stop-color="#0d1119" stop-opacity="0.7" /><stop offset="0.45" stop-color="#0d1119" stop-opacity="0.12" /><stop offset="1" stop-color="#0d1119" stop-opacity="0" /></linearGradient>
   </defs>
 
-  <!-- A faint band of the Milky Way across the sky -->
+  <!-- The Milky Way: a wide blue haze, a brighter warm core, and a dark lane of dust through it. -->
   <g transform="rotate(-24 800 360)">
-    <ellipse cx="760" cy="360" rx="900" ry="120" fill="url(#haze)" />
-    <ellipse cx="980" cy="330" rx="520" ry="70" fill="url(#haze)" />
+    <ellipse cx="800" cy="360" rx="1000" ry="190" fill="#5f78b0" opacity="0.13" filter="url(#soft)" />
+    <ellipse cx="820" cy="355" rx="820" ry="95" fill="#8ea6d8" opacity="0.16" filter="url(#soft)" />
+    <ellipse cx="860" cy="350" rx="520" ry="48" fill="#f0dcc0" opacity="0.14" filter="url(#softer)" />
+    <ellipse cx="640" cy="372" rx="260" ry="30" fill="#c8b8d8" opacity="0.10" filter="url(#softer)" />
+    <ellipse cx="900" cy="368" rx="560" ry="13" fill="#0b0e15" opacity="0.45" filter="url(#softer)" />
   </g>
+  <g>{band.map((s) => <circle cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} r={s.r.toFixed(2)} fill={s.c} opacity={s.o.toFixed(2)} />)}</g>
+  <g>{field.map((s) => <circle cx={s.x.toFixed(1)} cy={s.y.toFixed(1)} r={s.r.toFixed(2)} fill={s.c} opacity={s.o.toFixed(2)} class={s.tw ? 'tw' : undefined} style={s.tw ? `animation-delay:${s.d}s` : undefined} />)}</g>
 
-  <g>{dust.map((s) => <circle cx={s.x} cy={s.y} r={s.r} fill={s.c} opacity={s.o} class={s.tw ? 'tw' : undefined} style={s.tw ? `animation-delay:${s.d}s` : undefined} />)}</g>
-
-  <!-- Readability: the words sit on the darker left -->
+  <!-- Readability: the words sit on the darker left. -->
   <rect width="1600" height="720" fill="url(#fade-left)" />
 
-  <path class="figure big" d={path(bigLines)} />
-  <path class="figure little" d={path(little)} />
-  <path class="pointer" d={path([big.merak, polaris])} />
+  <!-- The two dippers: no lines, just a little more light than the stars around them. -->
+  {bigDipper.map(([x, y], i) => <g class="dipper" style={`animation-delay:${i * 0.5}s`}><circle cx={x} cy={y} r={size(bigMag[i]) * 3} fill="url(#star-glow)" /><circle cx={x} cy={y} r={size(bigMag[i])} fill="#f4f6ff" /></g>)}
+  {littleDipper.map(([x, y], i) => <g class="dipper" style={`animation-delay:${i * 0.6 + 0.3}s`}><circle cx={x} cy={y} r={size(littleMag[i]) * 3} fill="url(#star-glow)" /><circle cx={x} cy={y} r={size(littleMag[i])} fill="#fff4dc" /></g>)}
 
-  {Object.values(big).map(([x, y]) => <><circle cx={x} cy={y} r="11" fill="url(#star-glow)" /><circle class="star" cx={x} cy={y} r="4.2" /></>)}
-  {little.slice(1, 7).map(([x, y]) => <><circle cx={x} cy={y} r="9" fill="url(#star-glow)" /><circle class="star warm" cx={x} cy={y} r="3.6" /></>)}
-
-  <g>
-    <circle cx={px} cy={py} r="70" fill="url(#polaris-glow)" class="breathe" />
-    <rect x={px - 60} y={py - 1.2} width="120" height="2.4" fill="url(#spike-h)" />
-    <rect x={px - 1.2} y={py - 60} width="2.4" height="120" fill="url(#spike-v)" />
-    <rect x={px - 26} y={py - 0.8} width="52" height="1.6" fill="url(#spike-h)" transform={`rotate(45 ${px} ${py})`} opacity="0.6" />
-    <rect x={px - 26} y={py - 0.8} width="52" height="1.6" fill="url(#spike-h)" transform={`rotate(-45 ${px} ${py})`} opacity="0.6" />
-    <circle cx={px} cy={py} r="7.5" fill="#fffaf0" />
+  <!-- Polaris, as a sparkle, with a little one beside it. -->
+  <g class="polaris">
+    <circle cx={px} cy={py} r="66" fill="url(#polaris-glow)" class="breathe" />
+    <path d={sparkle(px, py, 30)} fill="url(#sparkle-fill)" class="shine" />
+    <path d={sparkle(px + 30, py - 28, 9)} fill="#fff4dc" class="shine small" />
+    <circle cx={px} cy={py} r="3.5" fill="#ffffff" />
   </g>
-
-  <text x={px + 22} y={py - 20} class="label gold">Polaris · the North Star</text>
-  <text x="1430" y="360" class="label">Little Dipper</text>
-  <text x="930" y="630" class="label">Big Dipper</text>
 </svg>
 
 <style>
-  .sky { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .tw { animation: twinkle 7s ease-in-out infinite; }
-  .figure { fill: none; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
-  .figure.big { stroke: #a9c2e6; stroke-opacity: 0.6; }
-  .figure.little { stroke: #ffe2a8; stroke-opacity: 0.7; }
-  .pointer { fill: none; stroke: #ffe7b8; stroke-opacity: 0.85; stroke-width: 1.6; stroke-dasharray: 2 9; stroke-linecap: round; opacity: 0; animation: appear 2s ease-out 0.4s forwards; }
-  .star { fill: #f4f6ff; }
-  .star.warm { fill: #fff4dc; }
+  .dipper { animation: glint 6s ease-in-out infinite; }
   .breathe { animation: breathe 5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-  .label { fill: #c9d6ea; font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; font-family: var(--font-body); opacity: 0.75; }
-  .label.gold { fill: #ffe7b8; opacity: 0.95; }
-  @keyframes twinkle { 50% { opacity: 0.12; } }
-  @keyframes appear { to { opacity: 1; } }
-  @keyframes breathe { 50% { transform: scale(1.18); opacity: 0.8; } }
+  .shine { transform-box: fill-box; transform-origin: center; animation: shine 5s ease-in-out infinite; }
+  .shine.small { animation-delay: 1.2s; }
+  @keyframes twinkle { 50% { opacity: 0.1; } }
+  @keyframes glint { 50% { opacity: 0.8; } }
+  @keyframes breathe { 50% { transform: scale(1.15); opacity: 0.8; } }
+  @keyframes shine { 50% { transform: scale(0.88); opacity: 0.85; } }
   @media (prefers-reduced-motion: reduce) {
-    .tw, .breathe { animation: none; }
-    .pointer { animation: none; opacity: 1; }
+    .tw, .dipper, .breathe, .shine { animation: none; }
   }
 </style>
