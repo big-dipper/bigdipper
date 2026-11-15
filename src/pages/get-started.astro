@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import HostingChoice from '../components/HostingChoice.astro';
-import { RAILWAY_MONTHLY, RAILWAY_TEMPLATE_URL } from '../lib/config';
+import { RAILWAY_MONTHLY, RAILWAY_SIGNUP_URL, RAILWAY_TEMPLATE_URL } from '../lib/config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Base title="Get your Little Dipper" description="Set up your own Little Dipper on Railway in a few minutes, then make it yours with a passkey.">
@@ -33,7 +33,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <h3>Create your Railway account</h3>
             <p>Railway is the hosting company your Little Dipper runs on. Sign up in the new tab that opens, then come back to this one: this page stays here.</p>
             <p class="note" style="margin-top: 8px">You start on Railway’s free trial (30 days or $5 of use). That’s enough to set up and try your Little Dipper. To keep it running after that, add a card in Railway and choose the <strong>Hobby</strong> plan ({RAILWAY_MONTHLY} a month).</p>
-            <p style="margin-top: 14px"><a class="btn btn-secondary btn-lg" href="https://railway.com/login" target="_blank" rel="noopener">Create a Railway account</a></p>
+            <p style="margin-top: 14px"><a class="btn btn-secondary btn-lg" href={RAILWAY_SIGNUP_URL} target="_blank" rel="noopener">Create a Railway account</a></p>
             <p class="note" style="margin-top: 8px">Already have one? Skip to the next step. Use the account you want to pay for this with.</p>
           </div>
         </li>
