@@ -39,7 +39,7 @@ const band = Array.from({ length: 1700 }, () => {
 const sparkle = (cx: number, cy: number, r: number, w = 0.16) =>
   `M${cx} ${cy - r} Q${cx + w * r} ${cy - w * r} ${cx + r} ${cy} Q${cx + w * r} ${cy + w * r} ${cx} ${cy + r} Q${cx - w * r} ${cy + w * r} ${cx - r} ${cy} Q${cx - w * r} ${cy - w * r} ${cx} ${cy - r}Z`;
 ---
-<svg class="sky" viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice" role="img"
+<svg class="sky" viewBox="0 0 1600 720" preserveAspectRatio="xMaxYMid slice" role="img"
   aria-label="A night sky full of stars, with the Milky Way, the Big Dipper and the Little Dipper. Polaris, the North Star, shines at the tip of the Little Dipper's handle.">
   <defs>
     <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="28" /></filter>

@@ -139,3 +139,16 @@ footer a { color: inherit; }
 .night-hero > .wrap { width: min(1080px, 100% - 40px); }
 .night-top .topbar { position: absolute; top: 0; left: 0; right: 0; z-index: 2; background: transparent; }
 .night-top .night-hero { padding-top: 80px; min-height: min(720px, 90vh); }
+
+/* Phones: the name and one button in the header; the whole sky across the top, the words beneath it. */
+@media (max-width: 760px) {
+  .top { padding: 14px 0; gap: 12px; }
+  .top nav a:not(.btn) { display: none; }
+  .brand { font-size: 19px; }
+  .nav-cta { font-size: 13px; padding: 7px 13px; margin-left: 0; }
+  .night-top .night-hero { padding-top: 250px; min-height: 0; align-items: flex-start; }
+  .night-hero > .sky { height: 340px; bottom: auto; -webkit-mask-image: linear-gradient(#000 65%, transparent); mask-image: linear-gradient(#000 65%, transparent); }
+  .night-hero .hero-grid { padding: 0 0 48px; }
+  .night-hero h1 { font-size: 40px; }
+  .night-hero .lede { font-size: 18px; }
+}
