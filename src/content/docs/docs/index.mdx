@@ -1,0 +1,28 @@
+---
+title: Little Dipper docs
+description: How Little Dipper works, and how to build on it. Every Little Dipper is one person's own server with the same open API.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+<p class="docs-kicker">For the curious and for builders</p>
+
+**Little Dipper is a private home for all of your life's data.** Each person runs their own: their identity, money, health, the people in their life and their documents, on a server they control. AI assistants, apps and other people's Little Dippers connect to it with the owner's permission.
+
+These docs explain how it works and how to build on it. You don't need any of this to use Little Dipper. To get one, start at [Get your Little Dipper](/get-started).
+
+## Start here
+
+<CardGrid>
+  <LinkCard title="Your Little Dipper" description="One person, one server, one address. What that means for anyone building on it." href="/docs/your-little-dipper/" />
+  <LinkCard title="Quickstart" description="Make a key and read and write your first entries in five minutes." href="/docs/quickstart/" />
+  <LinkCard title="Connect an AI assistant" description="Claude, ChatGPT, Muse or a model you run yourself, through MCP, with the owner in charge." href="/docs/build/ai-assistants/" />
+  <LinkCard title="API reference" description="Every endpoint and every category of data, generated from the code of the current release." href="/docs/api/" />
+</CardGrid>
+
+## What makes it different
+
+- **There is no central server.** Every Little Dipper serves the same API at its own address. You build against a person's node, with their permission, never against us.
+- **The owner decides, every time.** Apps and assistants get exactly the access the owner grants, can be limited to suggesting changes, and every change they make can be undone.
+- **It never breaks.** Endpoints are only ever added, never changed or removed, and you check what a node can do rather than which version it runs. Software you write today keeps working for decades.
+- **It's open.** Little Dipper is AGPL-3.0. The kit for building services is Apache-2.0.

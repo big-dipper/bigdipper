@@ -1,0 +1,66 @@
+/* The docs in Big Dipper's own look: Little Dipper's Organic palette (cream, ink, clay, sage) and its fonts.
+   Starlight's colours are set through its --sl-* variables, in dark (default) and light. */
+
+:root {
+  --sl-font: 'Figtree', system-ui, sans-serif;
+  --sl-font-heading: 'Caprasimo', system-ui, sans-serif;
+  --sl-text-h1: 2.4rem;
+  --sl-content-width: 46rem;
+
+  /* Dark: the night sky of the home page. */
+  --sl-color-accent-low: #3a2414;
+  --sl-color-accent: #e08a52;
+  --sl-color-accent-high: #f6c9a4;
+  --sl-color-white: #fbf4e8;
+  --sl-color-gray-1: #eadfcd;
+  --sl-color-gray-2: #cdbfa8;
+  --sl-color-gray-3: #a3967f;
+  --sl-color-gray-4: #6f6656;
+  --sl-color-gray-5: #3b3630;
+  --sl-color-gray-6: #24211d;
+  --sl-color-black: #151311;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f3d9c3;
+  --sl-color-accent: #a95a27;
+  --sl-color-accent-high: #5a2c0f;
+  --sl-color-white: #201e1d;
+  --sl-color-gray-1: #2e2b25;
+  --sl-color-gray-2: #4a453c;
+  --sl-color-gray-3: #6e675b;
+  --sl-color-gray-4: #9a907f;
+  --sl-color-gray-5: #d6c8b1;
+  --sl-color-gray-6: #ebddc5;
+  --sl-color-gray-7: #f1e5d2;
+  --sl-color-black: #f5ead8;
+}
+
+/* Headings in Caprasimo, like the rest of the site. */
+.sl-markdown-content :is(h1, h2, h3), h1#_top {
+  font-family: var(--sl-font-heading);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.sl-markdown-content h2 { margin-top: 2.2rem; }
+
+/* Softer, rounder surfaces, as in the app. */
+.sl-markdown-content :is(pre, .expressive-code .frame), .card, starlight-tabs, .sl-link-card {
+  border-radius: 16px;
+}
+.sl-markdown-content code:not(pre code) {
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+.sl-link-card { transition: border-color 0.15s, transform 0.15s; }
+.sl-link-card:hover { transform: translateY(-1px); }
+
+/* A gentle first-screen kicker for the docs home. */
+.docs-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sl-color-accent);
+  margin-bottom: 0.25rem;
+}

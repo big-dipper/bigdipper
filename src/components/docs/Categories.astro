@@ -1,0 +1,68 @@
+---
+// Every built-in category and its parts, read from Little Dipper's generated API spec (openapi/little-dipper.json),
+// so this page always matches the release the spec came from.
+import spec from '../../../openapi/little-dipper.json';
+
+type Prop = { 'x-part-type'?: string; title?: string; description?: string; type?: string | string[]; enum?: string[]; $ref?: string; items?: Prop; pattern?: string; format?: string; 'x-sensitivity'?: string; deprecated?: boolean; readOnly?: boolean; 'x-labels'?: Record<string, string> };
+type Schema = { title: string; description: string; properties: Record<string, Prop>; required?: string[] };
+
+const schemas = spec.components.schemas as Record<string, unknown>;
+const cats = Object.entries(schemas)
+  .filter(([k]) => k.startsWith('Record_'))
+  .map(([k, v]) => ({ id: k.slice('Record_'.length), ...(v as Schema) }))
+  .sort((a, b) => a.title.localeCompare(b.title));
+
+function typeOf(p: Prop): string {
+  const t = p['x-part-type'];
+  if (t === 'enum') return 'one of';
+  if (t === 'record') return p.type === 'array' ? 'links to entries' : 'link to an entry';
+  if (t === 'party' || t === 'contact') return 'party';
+  if (t === 'longtext') return 'text';
+  if (t) return t;
+  if (p.$ref) return p.$ref.split('/').pop()!.replace(/^DateTime$/, 'datetime').toLowerCase();
+  if (p.enum) return 'one of';
+  if (p.type === 'array') return p.items?.type === 'object' ? 'list' : `list of ${typeOf(p.items ?? {})}`;
+  if (p.pattern?.startsWith('^\\d{4}(')) return 'date';
+  if (p.format) return p.format;
+  return String(p.type ?? 'text');
+}
+const anchor = (id: string) => `cat-${id}`;
+---
+
+<p>{cats.length} built-in categories, from Little Dipper {spec.info.version}. Each is at <code>/api/data/&#123;id&#125;</code>. Owners can add their own (<code>x_…</code>); <code>GET /api/catalog</code> lists every category a node has, with the same detail.</p>
+
+<p class="cat-index">{cats.map((c, i) => <><a href={`#${anchor(c.id)}`}>{c.title}</a>{i < cats.length - 1 ? ' · ' : ''}</>)}</p>
+
+{cats.map((c) => (
+  <section class="cat">
+    <h2 id={anchor(c.id)}>{c.title} <code class="cat-id">{c.id}</code></h2>
+    <p>{c.description}</p>
+    <table>
+      <thead><tr><th>Part</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        {Object.entries(c.properties).map(([key, p]) => (
+          <tr>
+            <td><code>{key}</code><br /><span class="cat-label">{p.title}</span></td>
+            <td>{typeOf(p)}</td>
+            <td>
+              {(c.required ?? []).includes(key) && <strong>Required. </strong>}
+              {p['x-sensitivity'] === 'secret' && <span>Always secret. </span>}
+              {p.deprecated && <span>Deprecated. </span>}
+              {p.readOnly && <span>Set by Little Dipper. </span>}
+              {p.enum && <span>{p.enum.map((v) => <code>{v}</code>).reduce((a: any, b: any) => [a, ', ', b])}. </span>}
+              {p.description && <span>{p.description}</span>}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+))}
+
+<style>
+  .cat-index { line-height: 1.9; }
+  .cat-id { font-size: 0.7em; vertical-align: middle; }
+  .cat-label { color: var(--sl-color-gray-3); font-size: 0.85em; }
+  .cat table { display: table; width: 100%; font-size: 0.9rem; }
+  .cat td:first-child { white-space: nowrap; }
+</style>

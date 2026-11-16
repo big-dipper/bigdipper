@@ -13,9 +13,11 @@
     "node": ">=20.3.0"
   },
   "dependencies": {
+    "@astrojs/starlight": "0.37.7",
     "@fontsource/caprasimo": "^5.3.0",
     "@fontsource/figtree": "^5.3.0",
-    "astro": "5.18.2"
+    "astro": "5.18.2",
+    "starlight-openapi": "0.22.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
