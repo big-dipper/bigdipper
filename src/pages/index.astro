@@ -17,6 +17,18 @@ const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
   { icon: 'documents', title: 'Documents', tone: 'sage', items: ['Scans', 'Certificates', 'Contracts', 'Legal papers'] },
   { icon: 'dates', title: 'Dates', tone: 'sky', items: ['Birthdays', 'Renewals', 'Expiry dates', 'Events'] },
 ];
+
+/** Things people actually say to an assistant. Only what works today with an assistant like Claude or Muse. */
+const ASKS: [string, string][] = [
+  ['“Here’s a photo of my birth certificate. Add what it says.”', 'It reads the photo and suggests the entries. Nothing is saved until you OK it.'],
+  ['“What’s coming up this month that I need to deal with?”', 'Renewals, expiring IDs, birthdays and bills, gathered from everything you’ve kept.'],
+  ['“Where’s my car title, and when does my registration run out?”', 'Finds the document and the date in seconds.'],
+  ['“Go through my email and add my receipts from this year.”', 'Files each one, with where it came from, ready for returns, warranties and taxes.'],
+  ['“Help me fill in this rental application.”', 'Pulls your past addresses, jobs and references, for you to check.'],
+  ['“I have debts in collections. Help me make a plan.”', 'Lays out who you owe and what, and helps you decide what to tackle first.'],
+  ['“Write my résumé from my work history.”', 'Uses the jobs, schools and dates you’ve already recorded.'],
+  ['“What does my accountant need from me for taxes?”', 'Gathers your income, receipts and statements so you can send them.'],
+];
 ---
 <Base night title="Little Dipper: life management for the AI era" description="Little Dipper is a private home for all of your life’s data, on a server that belongs to you. Free, open-source software; you pay the host, usually about $5 a month.">
   <div class="night-hero">
@@ -99,6 +111,19 @@ const cats: { icon: string; title: string; tone: string; items: string[] }[] = [
           <li><strong>Some things stay yours alone.</strong> Changes to who you are always wait for you, and it can never export your data or give anyone else access.</li>
           <li><strong>Every action is logged</strong> and can be undone. Change its access or disconnect it, and that applies from its very next request.</li>
         </ul>
+      </div>
+    </div>
+
+    <div class="asks">
+      <h3>Not sure what to ask? Try these.</h3>
+      <p class="asks-sub">Say them to your assistant once it's connected to your Little Dipper.</p>
+      <div class="asks-grid">
+        {ASKS.map(([say, does]) => (
+          <figure class="ask">
+            <blockquote>{say}</blockquote>
+            <figcaption>{does}</figcaption>
+          </figure>
+        ))}
       </div>
     </div>
   </section>

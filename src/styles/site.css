@@ -128,6 +128,21 @@ footer a { color: inherit; }
 .ai-controls h3 { font-size: 20px; margin-bottom: 10px; }
 .ai-controls .limits li { margin-bottom: 10px; }
 @media (max-width: 760px) { .ai-band { grid-template-columns: 1fr; } }
+
+/* Things to ask your assistant: speech bubbles, in the app's warm surfaces. */
+.asks { margin-top: 40px; }
+.asks h3 { font-size: 24px; margin-bottom: 4px; }
+.asks-sub { color: color-mix(in srgb, var(--color-text) 62%, transparent); margin-bottom: 18px; }
+.asks-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.ask { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.ask blockquote {
+  position: relative; margin: 0; padding: 14px 16px; border-radius: 20px 20px 20px 6px;
+  background: var(--color-surface); border: 1px solid var(--color-divider);
+  font-size: 15.5px; line-height: 1.45; font-weight: 600;
+}
+.ask figcaption { font-size: 14px; line-height: 1.45; color: color-mix(in srgb, var(--color-text) 66%, transparent); padding: 0 6px; }
+@media (max-width: 1000px) { .asks-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .asks-grid { grid-template-columns: 1fr; } }
 .kicker-lg { font-size: 17px; letter-spacing: 0.12em; font-weight: 600; margin-bottom: 12px; }
 .screens { display: grid; gap: 18px; }
 .screen { margin: 0; }
