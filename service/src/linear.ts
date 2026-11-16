@@ -76,15 +76,28 @@ export function describe(f: Feedback, assetUrl: string | null) {
   return out.join('\n');
 }
 
+/**
+ * The team's Triage state. Linear only sends issues from *outside* members to Triage; Big Dipper files with a member's
+ * key, so it names the state itself. Looked up once; without Triage on, issues land in the team's default state.
+ */
+let triage: Promise<string | null> | null = null;
+function triageState(cfg: LinearConfig) {
+  triage ??= gql<{ workflowStates: { nodes: { id: string }[] } }>(cfg,
+    `query($team: ID!) { workflowStates(filter: { team: { id: { eq: $team } }, type: { eq: "triage" } }) { nodes { id } } }`,
+    { team: cfg.teamId }).then((d) => d.workflowStates.nodes[0]?.id ?? null).catch((e) => { triage = null; throw e; });
+  return triage;
+}
+
 export function linearSink(cfg: LinearConfig): Sink {
   return {
     name: 'Linear',
     async file(f) {
+      const stateId = await triageState(cfg);
       const assetUrl = f.screenshot ? await upload(cfg, f.screenshot, `feedback-${Date.now()}.png`) : null;
       const labelIds = [...cfg.labels.all, cfg.labels[f.type]].filter((x): x is string => !!x);
       const d = await gql<{ issueCreate: { success: boolean; issue: { identifier: string } | null } }>(cfg,
         `mutation($input: IssueCreateInput!) { issueCreate(input: $input) { success issue { identifier } } }`,
-        { input: { teamId: cfg.teamId, title: title(f), description: describe(f, assetUrl), labelIds } });
+        { input: { teamId: cfg.teamId, title: title(f), description: describe(f, assetUrl), labelIds, ...(stateId ? { stateId } : {}) } });
       if (!d.issueCreate.success || !d.issueCreate.issue) throw new Error('Linear created no issue');
       return { reference: d.issueCreate.issue.identifier };
     },
