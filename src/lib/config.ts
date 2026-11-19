@@ -8,3 +8,5 @@ export const RAILWAY_SIGNUP_URL = `https://railway.com/?referralCode=${RAILWAY_R
 export const RAILWAY_MONTHLY = 'about $5';
 /** The shared demo: one click signs you in as Maya. Refilled every hour (Little Dipper's scripts/demo.ts --hosted). */
 export const DEMO_URL = 'https://little-dipper-demo.onrender.com/api/auth/demo';
+/** Big Dipper's service (hosting, feedback). PUBLIC_BD_SERVICE_URL overrides it, e.g. a local copy while testing. */
+export const SERVICE_URL = (import.meta.env.PUBLIC_BD_SERVICE_URL || 'https://big-dipper-service.onrender.com').replace(/\/+$/, '');

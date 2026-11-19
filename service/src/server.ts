@@ -13,7 +13,8 @@
  *   LINEAR_API_KEY, LINEAR_TEAM_ID, LINEAR_LABELS (comma-separated, on every issue), LINEAR_LABEL_BUG|IDEA|QUESTION|OTHER
  *                        where feedback goes. Without them, feedback is written to ./feedback-outbox (development).
  *   FLY_API_TOKEN, FLY_ORG, FLY_REGION   turn on Big Dipper Hosting (POST /hosting/start). BD_HOSTING_IMAGE picks the
- *                        Little Dipper release; BD_HOSTING_PER_IP_PER_DAY limits new nodes per address (default 3).
+ *                        Little Dipper release; BD_HOSTING_PER_IP_PER_DAY limits new nodes per address (default 3);
+ *                        BD_SITE_ORIGINS lists the site addresses allowed to call it from a browser.
  *   PORT                 default 4500
  */
 import Fastify from 'fastify';
@@ -63,7 +64,10 @@ if (host) {
   const image = env.BD_HOSTING_IMAGE || 'ghcr.io/big-dipper/littledipper:latest';
   const perIpPerDay = Number(env.BD_HOSTING_PER_IP_PER_DAY || 3);
   const recent = new Map<string, number[]>();
+  const siteOrigins = (env.BD_SITE_ORIGINS || 'https://bigdipper.onrender.com').split(',').map((s) => s.trim());
   app.post('/hosting/start', async (req, reply) => {
+    const origin = String(req.headers.origin || '');
+    if (siteOrigins.includes(origin)) reply.header('access-control-allow-origin', origin).header('vary', 'origin');
     // A brake on someone creating nodes in a loop. Stateless, so it resets when the service restarts.
     const now = Date.now();
     const times = (recent.get(req.ip) || []).filter((t) => now - t < 86400_000);

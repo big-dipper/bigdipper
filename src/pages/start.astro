@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { SERVICE_URL } from '../lib/config';
+---
+<Base title="Get your Little Dipper" description="Your own Little Dipper in under a minute. We host it; it's yours.">
+  <div class="narrow hero" style="padding-bottom: 10px">
+    <div class="kicker">Get your Little Dipper</div>
+    <h1 style="font-size: clamp(36px, 5vw, 52px)">Your own Little Dipper in under a minute.</h1>
+    <p class="lede">We set it up for you. Then you make it yours with a passkey, the way you unlock your phone. No account to create and no card today.</p>
+  </div>
+
+  <div class="narrow">
+    <section class="band" id="start-box">
+      <div id="ready-state">
+        <p style="margin: 0 0 18px">Press the button and wait about half a minute. You'll land on your new Little Dipper, ready to claim.</p>
+        <button id="go" class="btn btn-primary btn-lg" type="button">Get my Little Dipper</button>
+        <p class="note" style="margin-top: 14px">Free while you try it. Later it's $10 a month, and you can take it somewhere else anytime, with everything in it.</p>
+      </div>
+      <div id="working-state" hidden>
+        <h2 id="working-title" style="margin-top: 0">Setting up your Little Dipper…</h2>
+        <p id="working-line" class="lede" style="margin: 0">Making a private server that's only for you.</p>
+        <p class="note" style="margin-top: 14px">This takes about half a minute. Keep this page open.</p>
+      </div>
+      <div id="error-state" hidden>
+        <h2 style="margin-top: 0">That didn't work this time</h2>
+        <p id="error-line" style="margin: 0 0 18px"></p>
+        <button id="retry" class="btn btn-secondary btn-lg" type="button">Try again</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>What you're getting</h2>
+      <ul class="prose">
+        <li><strong>Your life, in one place you own.</strong> Documents, important dates and the people in your life, ready when you need them.</li>
+        <li><strong>Looked after for you.</strong> We keep it running, up to date and backed up. You never have to think about servers.</li>
+        <li><strong>Yours to keep.</strong> Take it with you anytime, with everything in it.</li>
+        <li><strong>Locked where it matters.</strong> Your most sensitive things are protected with a key only you hold. <a href="#how-we-protect">How we protect your data</a></li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<script define:vars={{ SERVICE_URL }}>
+  const $ = (id) => document.getElementById(id);
+  const show = (which) => ['ready-state', 'working-state', 'error-state'].forEach((s) => ($(s).hidden = s !== which));
+  const lines = [
+    [0, "Making a private server that's only for you."],
+    [6000, 'Giving it its own address on the internet.'],
+    [12000, 'Locking it with its own certificate, so only you and the people you choose can talk to it.'],
+    [20000, 'Almost ready. Starting your Little Dipper for the first time.'],
+    [45000, 'Taking a little longer than usual. Still going.'],
+  ];
+  async function start() {
+    show('working-state');
+    const timers = lines.map(([ms, text]) => setTimeout(() => ($('working-line').textContent = text), ms));
+    try {
+      const r = await fetch(`${SERVICE_URL}/hosting/start`, { method: 'POST' });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.claimUrl) throw new Error(j.message || 'Something went wrong on our side. Nothing was charged and nothing was kept.');
+      $('working-title').textContent = 'Ready.';
+      $('working-line').textContent = 'Taking you to your Little Dipper now.';
+      location.href = j.claimUrl;
+    } catch (e) {
+      $('error-line').textContent = e instanceof TypeError ? "We couldn't reach Big Dipper. Check your connection and try again." : e.message;
+      show('error-state');
+    } finally {
+      timers.forEach(clearTimeout);
+    }
+  }
+  $('go').addEventListener('click', start);
+  $('retry').addEventListener('click', start);
+</script>
