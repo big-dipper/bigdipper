@@ -47,3 +47,15 @@ services:
         sync: false
       - key: LINEAR_LABEL_OTHER
         sync: false
+      # Big Dipper Hosting (POST /hosting/start). The Fly token is a secret: set it in the dashboard.
+      - key: FLY_API_TOKEN
+        sync: false
+      - key: FLY_ORG
+        sync: false
+      # Invite codes, comma-separated, while we open up slowly. Set in the dashboard; share links as /start?invite=CODE.
+      - key: BD_HOSTING_INVITES
+        sync: false
+      - key: BD_SITE_ORIGINS
+        value: https://bigdipper.onrender.com
+      - key: BD_HOSTING_IMAGE
+        value: ghcr.io/big-dipper/littledipper:0.4.8
