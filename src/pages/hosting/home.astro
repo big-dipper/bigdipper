@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Level from '../../components/Level.astro';
+import RunAnywhere from '../../components/RunAnywhere.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Base title="Your own computer · Little Dipper" description="Run your Little Dipper on a computer you own. Free to run, fully yours, and fully up to you.">
@@ -34,5 +35,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <h2>You’re on your own, for now</h2>
       <p>We don’t have a step-by-step guide for this path yet. If you know your way around servers, the <a href="https://github.com/big-dipper/littledipper#readme">Little Dipper README</a> has what you need. If that sounds like a lot, that’s fair: start with <a href={`${base}/hosting/managed`}>us hosting it</a> and move it home later, with everything in it.</p>
     </section>
+    <RunAnywhere />
   </div>
 </Base>

@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Level from '../../components/Level.astro';
+import RunAnywhere from '../../components/RunAnywhere.astro';
 import { RAILWAY_MONTHLY } from '../../lib/config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const others: [string, string, string][] = [
@@ -60,6 +61,7 @@ const others: [string, string, string][] = [
         </table>
       </div>
       <p class="note" style="margin-top: 10px">Costs are rough estimates for one small Little Dipper, paid to the company each month. Some offer free tiers or credits for new accounts. Check their current prices before you start.</p>
+      <RunAnywhere />
     </section>
   </div>
 </Base>
