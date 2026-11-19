@@ -58,7 +58,7 @@ const shot = (name: string) => `${base}/screens/${name}.png`;
       </figure>
       <ul class="prose" style="margin: 0">
         <li><strong>Where your words go.</strong> For each model, a plain note: which company runs it, how your words travel, what that company does with them, and what the assistant can see and do in your Little Dipper.</li>
-        <li><strong>What it costs.</strong> Every conversation shows what it has cost so far, counted the way the AI company counts it. This one: about a cent.</li>
+        <li><strong>What it costs.</strong> Every conversation shows what it has cost so far, counted the way the AI company counts it.</li>
       </ul>
     </div>
   </section>
@@ -75,10 +75,22 @@ const shot = (name: string) => `${base}/screens/${name}.png`;
     </div>
   </section>
 
-  <section class="wrap">
-    <div class="kicker">Already have an assistant?</div>
-    <h2>Connect the one you already use</h2>
-    <p class="lede" style="font-size: 18px">Claude, ChatGPT, Muse and other assistants can connect to your Little Dipper too, with the same limits, the same approvals and the same log. You decide what each one sees and does.</p>
-    <div class="actions"><a class="btn btn-primary btn-lg" href={`${base}/hosting`}>Get your Little Dipper</a></div>
+  <section class="wrap" id="two-ways">
+    <div class="kicker">Two ways to use AI</div>
+    <h2>Inside your Little Dipper, or from the AI app you already use</h2>
+    <p class="lede" style="font-size: 18px">Use either, or both. They follow the same limits you set, and everything they do lands in the same activity log.</p>
+    <div style="overflow-x: auto">
+      <table class="compare">
+        <thead><tr><th></th><th>Built into Little Dipper</th><th>Connect the assistant you already use</th></tr></thead>
+        <tbody>
+          <tr><th>Where you talk to it</th><td>In the panel beside every page of your Little Dipper</td><td>In Claude, ChatGPT, Muse or another AI app, the way you already do</td></tr>
+          <tr><th>How it reaches your life</th><td>It’s already inside: it sees what you allow and asks before changing anything</td><td>You connect the app to your Little Dipper once, and choose what it can see and do</td></tr>
+          <tr><th>What you pay</th><td>The AI company, only for what you use, with your own key</td><td>Nothing extra from us: it works with the AI app and plan you already have</td></tr>
+          <tr><th>Choosing the AI</th><td>Any model you like, and switch anytime: best answers, lowest cost or most private</td><td>Whichever AI app you connect</td></tr>
+          <tr><th>Good for</th><td>Working on your Little Dipper itself: filing, finding, tidying up</td><td>Bringing your life into conversations you’re already having elsewhere</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="actions" style="margin-top: 22px"><a class="btn btn-primary btn-lg" href={`${base}/hosting`}>Get your Little Dipper</a></div>
   </section>
 </Base>
