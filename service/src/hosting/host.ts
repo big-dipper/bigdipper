@@ -40,7 +40,7 @@ export interface Host {
 }
 
 /** Wait until a new node answers, so the person never lands on an error page. */
-export async function waitUntilAnswering(url: string, timeoutMs = 90_000): Promise<number> {
+export async function waitUntilAnswering(url: string, timeoutMs = 180_000): Promise<number> {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
     try {
