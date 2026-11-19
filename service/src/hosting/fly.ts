@@ -112,6 +112,17 @@ export class FlyHost implements Host {
     }
   }
 
+  async listNodes() {
+    const r = await this.api<{ apps: { name: string }[] }>('GET', `/apps?org_slug=${encodeURIComponent(this.o.org)}`);
+    const out: { id: string; url: string; createdAt: string }[] = [];
+    for (const a of r.apps.filter((x) => /^ld-[0-9a-f]{8}$/.test(x.name))) {
+      const ms = await this.api<{ created_at: string; config: { metadata?: Record<string, string> } }[]>('GET', `/apps/${a.name}/machines`).catch(() => []);
+      const m = ms.find((x) => x.config.metadata?.['big-dipper-hosting'] === '1');
+      if (m) out.push({ id: a.name, url: `https://${a.name}.fly.dev`, createdAt: m.created_at });
+    }
+    return out;
+  }
+
   async destroy(app: string) {
     await this.api('DELETE', `/apps/${app}?force=true`);
   }

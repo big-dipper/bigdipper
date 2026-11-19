@@ -15,6 +15,7 @@
  *   FLY_API_TOKEN, FLY_ORG, FLY_REGION   turn on Big Dipper Hosting (POST /hosting/start). BD_HOSTING_IMAGE picks the
  *                        Little Dipper release; BD_HOSTING_PER_IP_PER_DAY limits new nodes per address (default 3);
  *                        BD_SITE_ORIGINS lists the site addresses allowed to call it from a browser.
+ *                        BD_HOSTING_INVITES: comma-separated invite codes; when set, a node needs one (?invite=).
  *   PORT                 default 4500
  */
 import Fastify from 'fastify';
@@ -23,7 +24,7 @@ import { createService, fastifyAdapter } from './kit/service.js';
 import { folderSink, parseFeedback } from './feedback.js';
 import { linearFromEnv, linearSink } from './linear.js';
 import { flyFromEnv } from './hosting/fly.js';
-import { waitUntilAnswering } from './hosting/host.js';
+import { removeUnclaimed, waitUntilAnswering } from './hosting/host.js';
 
 const VERSION = '0.1.0';
 const env = process.env;
@@ -64,10 +65,16 @@ if (host) {
   const image = env.BD_HOSTING_IMAGE || 'ghcr.io/big-dipper/littledipper:latest';
   const perIpPerDay = Number(env.BD_HOSTING_PER_IP_PER_DAY || 3);
   const recent = new Map<string, number[]>();
+  const invites = (env.BD_HOSTING_INVITES || '').split(',').map((s) => s.trim()).filter(Boolean);
+  // Every ten minutes, remove nodes nobody claimed within the hour.
+  setInterval(() => { removeUnclaimed(host, 3600_000, (m) => app.log.info(m)).catch((e) => app.log.warn({ err: String(e) }, 'unclaimed cleanup failed')); }, 10 * 60_000).unref();
   const siteOrigins = (env.BD_SITE_ORIGINS || 'https://bigdipper.onrender.com').split(',').map((s) => s.trim());
   app.post('/hosting/start', async (req, reply) => {
     const origin = String(req.headers.origin || '');
     if (siteOrigins.includes(origin)) reply.header('access-control-allow-origin', origin).header('vary', 'origin');
+    // While we open up slowly, a node needs an invite code (?invite=, so the browser sends no preflight).
+    const invite = String((req.query as { invite?: string }).invite || '').trim();
+    if (invites.length && !invites.includes(invite)) return reply.code(403).send({ error: 'invite_needed', message: 'We’re opening up slowly. Ask the person who told you about Little Dipper for an invite link.' });
     // A brake on someone creating nodes in a loop. Stateless, so it resets when the service restarts.
     const now = Date.now();
     const times = (recent.get(req.ip) || []).filter((t) => now - t < 86400_000);

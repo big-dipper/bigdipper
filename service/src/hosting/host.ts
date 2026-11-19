@@ -35,8 +35,26 @@ export interface Host {
   updateImage(id: string, image: string): Promise<void>;
   restart(id: string): Promise<void>;
   status(id: string): Promise<NodeStatus>;
-  /** Remove the node and its disk. Only after the owner moved out, or the grace period ended. */
+  /** Remove the node and its disk. Only after the owner moved out, the grace period ended, or it was never claimed. */
   destroy(id: string): Promise<void>;
+  /** Every node we host: just names, addresses and when they were made. */
+  listNodes(): Promise<{ id: string; url: string; createdAt: string }[]>;
+}
+
+/**
+ * A node nobody claimed within the hour is removed, disk and all. It holds nothing (claiming is the first thing that
+ * happens on it), and it keeps robots that create nodes but never claim them from costing more than minutes.
+ */
+export async function removeUnclaimed(host: Host, maxAgeMs = 3600_000, log: (m: string) => void = () => {}) {
+  for (const n of await host.listNodes()) {
+    if (Date.now() - Date.parse(n.createdAt) < maxAgeMs) continue;
+    try {
+      const r = await fetch(`${n.url}/api/node/status`, { signal: AbortSignal.timeout(5000) });
+      if (!r.ok) continue; // can't tell: leave it for the next round, never guess
+      const s = (await r.json()) as { claimed?: boolean };
+      if (s.claimed === false) { await host.destroy(n.id); log(`Removed ${n.id}: not claimed within ${Math.round(maxAgeMs / 60000)} minutes`); }
+    } catch { /* unreachable now: try again next round */ }
+  }
 }
 
 /** Wait until a new node answers, so the person never lands on an error page. */
