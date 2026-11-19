@@ -61,6 +61,15 @@ fastifyAdapter(app, service);
 // Big Dipper Hosting: "Get my Little Dipper" creates a node and sends the person straight to its claim page.
 // No Big Dipper account: their node is their account. Off unless FLY_API_TOKEN and FLY_ORG are set.
 const host = flyFromEnv();
+const siteOriginsAll = (env.BD_SITE_ORIGINS || 'https://bigdipper.onrender.com').split(',').map((s) => s.trim());
+if (!host) {
+  // Hosting not switched on here: say so plainly, so the page doesn't blame the visitor's connection.
+  app.post('/hosting/start', async (req, reply) => {
+    const origin = String(req.headers.origin || '');
+    if (siteOriginsAll.includes(origin)) reply.header('access-control-allow-origin', origin).header('vary', 'origin');
+    return reply.code(503).send({ error: 'hosting_closed', message: 'We’re not creating new Little Dippers right now. Please try again a little later.' });
+  });
+}
 if (host) {
   const image = env.BD_HOSTING_IMAGE || 'ghcr.io/big-dipper/littledipper:latest';
   const perIpPerDay = Number(env.BD_HOSTING_PER_IP_PER_DAY || 3);
