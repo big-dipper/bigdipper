@@ -10,3 +10,10 @@ export const RAILWAY_MONTHLY = 'about $5';
 export const DEMO_URL = 'https://little-dipper-demo.onrender.com/api/auth/demo';
 /** Big Dipper's service (hosting, feedback). PUBLIC_BD_SERVICE_URL overrides it, e.g. a local copy while testing. */
 export const SERVICE_URL = (import.meta.env.PUBLIC_BD_SERVICE_URL || 'https://big-dipper-service.onrender.com').replace(/\/+$/, '');
+
+/** Big Dipper Hosting: what people see before they start. Prices and the trial are public (owner, Nov 19 2026). */
+export const HOSTED_MONTHLY = '$10';
+export const TRIAL_DAYS = 30;
+/** The companies behind our hosting. Names only until we have permission to show their logos. */
+export const HOST_PARTNER = 'Fly.io';
+export const BACKUP_PARTNER = 'DigitalOcean';

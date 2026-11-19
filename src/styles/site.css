@@ -167,3 +167,50 @@ footer a { color: inherit; }
   .night-hero h1 { font-size: 40px; }
   .night-hero .lede { font-size: 18px; }
 }
+
+/* Three ways to have a Little Dipper */
+.paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+.path { border-radius: 28px; padding: 24px 24px 22px; background: var(--color-neutral-100); border: 1px solid var(--color-divider); display: flex; flex-direction: column; gap: 12px; }
+.path.featured { background: #1b2a40; color: #e9e6df; border-color: transparent; }
+.path.featured h3 { color: #fff; }
+.path.featured .small, .path.featured .facts dt { color: #c9c6be; }
+.path h3 { font-size: 22px; margin: 0; }
+.path .cta { margin-top: auto; padding-top: 6px; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; font-size: 15px; }
+.facts dt { color: var(--color-neutral-700); }
+.facts dd { margin: 0; }
+.level { display: inline-flex; gap: 3px; vertical-align: -1px; margin-right: 6px; }
+.level i { width: 9px; height: 9px; border-radius: 50%; background: currentColor; opacity: 0.25; }
+.level i.on { opacity: 1; }
+.path.featured .btn-primary { background: #ffe7b8; color: #11161f; }
+@media (max-width: 860px) { .paths { grid-template-columns: 1fr; } }
+
+/* Comparison table */
+.compare { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 15.5px; }
+.compare th, .compare td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--color-divider); }
+.compare thead th { font-size: 16px; }
+.compare tbody th { font-weight: 600; color: var(--color-neutral-800); width: 22%; }
+@media (max-width: 760px) { .compare { font-size: 14px; } .compare th, .compare td { padding: 10px 8px; } }
+
+/* Questions people ask */
+.faq details { border-bottom: 1px solid var(--color-divider); padding: 14px 0; }
+.faq summary { cursor: pointer; font-weight: 600; font-size: 17.5px; list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before { content: '+'; display: inline-block; width: 22px; color: var(--color-accent-2); }
+.faq details[open] summary::before { content: '–'; }
+.faq details > *:not(summary) { margin: 10px 0 0 22px; }
+
+/* Pairs: a limit and what we do about it */
+.pairs { display: grid; gap: 14px; margin-top: 18px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 22px; overflow: hidden; border: 1px solid var(--color-divider); }
+.pair > div { padding: 18px 20px; }
+.pair > div:first-child { background: var(--color-neutral-100); }
+.pair > div:last-child { background: var(--color-surface); }
+.pair .label { font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-700); margin-bottom: 6px; }
+@media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+
+/* Three choices (assistant) */
+.choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+.choice { border-radius: 24px; padding: 20px 22px; background: var(--color-surface); }
+.choice h3 { font-size: 19px; margin: 0 0 6px; }
+@media (max-width: 860px) { .choices { grid-template-columns: 1fr; } }

@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import Paths from '../../components/Paths.astro';
+import { BACKUP_PARTNER, HOSTED_MONTHLY, HOST_PARTNER, RAILWAY_MONTHLY, TRIAL_DAYS } from '../../lib/config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Where your Little Dipper lives" description="Three ways to have a Little Dipper: we host it for you, your own cloud account, or your own computer. What each one takes and costs.">
+  <div class="wrap hero" style="padding-bottom: 6px">
+    <div class="kicker">Where your Little Dipper lives</div>
+    <h1 style="font-size: clamp(36px, 5vw, 52px)">Three ways to have your own Little Dipper.</h1>
+    <p class="lede">It’s the same Little Dipper wherever it runs. The difference is who looks after the computer it runs on: us, a hosting company you choose, or you.</p>
+  </div>
+
+  <section class="wrap">
+    <Paths />
+  </section>
+
+  <section class="wrap">
+    <h2>Side by side</h2>
+    <div style="overflow-x: auto">
+      <table class="compare">
+        <thead>
+          <tr><th></th><th>We host it for you</th><th>Your own cloud account</th><th>Your own computer</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Who runs the computer</th><td>We do, on {HOST_PARTNER}</td><td>A hosting company you sign up with (Railway today)</td><td>You do</td></tr>
+          <tr><th>Who you pay</th><td>Us: {HOSTED_MONTHLY} a month after a {TRIAL_DAYS}-day free trial</td><td>The hosting company: {RAILWAY_MONTHLY} a month on Railway</td><td>Nobody, beyond your hardware and electricity</td></tr>
+          <tr><th>Updates</th><td>We install them for you</td><td>Railway installs small updates; bigger ones take one click</td><td>You install them</td></tr>
+          <tr><th>Backups</th><td>Nightly, plus copies you save to your own computer. Coming: a copy kept with a second company, {BACKUP_PARTNER}</td><td>Nightly on your server, plus copies on your own computer</td><td>Nightly on your computer; keeping a copy somewhere else is up to you</td></tr>
+          <tr><th>If something breaks</th><td>Tell us from inside your Little Dipper and we fix it</td><td>You restart it from Railway’s dashboard; we help if you ask</td><td>You fix it</td></tr>
+          <tr><th>Who could reach the computer</th><td>Us and {HOST_PARTNER}, under rules we publish. <a href={`${base}/protect`}>How we protect your data</a></td><td>Railway, under its own rules</td><td>Only people with access to your computer</td></tr>
+          <tr><th>Leaving</th><td colspan="3">The same everywhere: a backup and your recovery kit bring your Little Dipper back on any of the three, with everything in it. (A one-click move is coming.)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top: 14px">Not sure? Start with us hosting it. It’s free for {TRIAL_DAYS} days, and you can move it to your own cloud account or your own computer later without losing anything.</p>
+  </section>
+</Base>

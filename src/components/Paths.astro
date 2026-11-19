@@ -1,0 +1,39 @@
+---
+/** The three ways to have a Little Dipper, side by side. On the home page and at the top of /hosting. */
+import Level from './Level.astro';
+import { HOSTED_MONTHLY, HOST_PARTNER, RAILWAY_MONTHLY, TRIAL_DAYS } from '../lib/config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<div class="paths">
+  <div class="path featured">
+    <h3>We host it for you</h3>
+    <p class="small" style="margin: 0">Press one button. We set it up on {HOST_PARTNER} and look after it for you.</p>
+    <dl class="facts">
+      <dt>Effort</dt><dd><Level of={1} label="Easiest, no technical skills" /></dd>
+      <dt>Setup</dt><dd>About a minute</dd>
+      <dt>Cost</dt><dd>Free for {TRIAL_DAYS} days, no card. Then {HOSTED_MONTHLY} a month.</dd>
+    </dl>
+    <div class="cta"><a class="btn btn-primary" href={`${base}/hosting/managed`}>See how it works</a></div>
+  </div>
+  <div class="path">
+    <h3>Your own cloud account</h3>
+    <p class="small" style="margin: 0">Run it in your own account with a hosting company. We walk you through Railway step by step.</p>
+    <dl class="facts">
+      <dt>Effort</dt><dd><Level of={2} label="Guided, if you’re comfortable signing up for things online" /></dd>
+      <dt>Setup</dt><dd>About ten minutes</dd>
+      <dt>Cost</dt><dd>{RAILWAY_MONTHLY[0].toUpperCase() + RAILWAY_MONTHLY.slice(1)} a month, paid to Railway</dd>
+    </dl>
+    <div class="cta"><a class="btn btn-secondary" href={`${base}/hosting/cloud`}>See how it works</a></div>
+  </div>
+  <div class="path">
+    <h3>Your own computer</h3>
+    <p class="small" style="margin: 0">Run it on a computer you own, at home or anywhere. For people who like doing it themselves.</p>
+    <dl class="facts">
+      <dt>Effort</dt><dd><Level of={3} label="Technical, if you’re comfortable with servers" /></dd>
+      <dt>Setup</dt><dd>An hour or more</dd>
+      <dt>Cost</dt><dd>Free to run, on hardware you own</dd>
+    </dl>
+    <div class="cta"><a class="btn btn-secondary" href={`${base}/hosting/home`}>See how it works</a></div>
+  </div>
+</div>
+<p class="move-note"><strong>Move between them whenever you like,</strong> with everything in it.</p>

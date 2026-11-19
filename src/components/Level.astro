@@ -1,0 +1,6 @@
+---
+/** How hard a path is: three dots, filled up to `of`. */
+interface Props { of: 1 | 2 | 3; label: string }
+const { of, label } = Astro.props;
+---
+<span><span class="level" aria-hidden="true">{[1, 2, 3].map((n) => <i class={n <= of ? 'on' : undefined}></i>)}</span>{label}</span>

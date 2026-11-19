@@ -14,9 +14,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const here = Astro.url.pathname.replace(/\/$/, '');
 const nav = [
   ['What it does', `${base}/#what`],
+  ['Your assistant', `${base}/assistant`],
+  ['Where it lives', `${base}/hosting`],
   ['Try the demo', DEMO_URL],
-  ['What it costs', `${base}/#deal`],
-  ['Railway guide', `${base}/guide/railway`],
   ['Docs', `${base}/docs/`],
   ['Source code', 'https://github.com/big-dipper/littledipper'],
 ];
@@ -36,7 +36,7 @@ const nav = [
         <a class="brand" href={`${base}/`}>Big Dipper</a>
         <nav>
           {nav.map(([label, href]) => <a href={href} aria-current={here === href ? 'page' : undefined}>{label}</a>)}
-          <a class="btn btn-primary nav-cta" href={`${base}/get-started`}>Get your Little Dipper</a>
+          <a class="btn btn-primary nav-cta" href={`${base}/hosting`}>Get your Little Dipper</a>
         </nav>
       </header>
     </div>

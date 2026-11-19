@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import Level from '../../components/Level.astro';
+import { BACKUP_PARTNER, HOSTED_MONTHLY, HOST_PARTNER, TRIAL_DAYS } from '../../lib/config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="We host it for you · Little Dipper" description={`Your own Little Dipper in about a minute. Free for ${TRIAL_DAYS} days, no card. Then ${HOSTED_MONTHLY} a month.`}>
+  <div class="narrow hero" style="padding-bottom: 6px">
+    <div class="kicker">We host it for you</div>
+    <h1 style="font-size: clamp(36px, 5vw, 52px)">Your own Little Dipper, looked after for you.</h1>
+    <p class="lede">Press one button and about a minute later it’s ready. You make it yours with a passkey, and we take care of the computer it runs on.</p>
+    <p style="margin-top: 18px"><Level of={1} label="Easiest: no technical skills needed" /></p>
+    <div class="actions" style="margin-top: 18px"><a class="btn btn-primary btn-lg" href={`${base}/start`}>Get my Little Dipper</a></div>
+  </div>
+
+  <div class="narrow">
+    <section>
+      <h2>What it costs</h2>
+      <ul class="prose">
+        <li><strong>Free for {TRIAL_DAYS} days.</strong> No card, no account to make. Put real things in and see if it earns its place.</li>
+        <li><strong>Then {HOSTED_MONTHLY} a month.</strong> You add a card from inside your Little Dipper when you’re ready.</li>
+        <li><strong>If you don’t continue,</strong> nothing is lost by surprise. You get time to decide, your Little Dipper goes to sleep rather than disappearing, and you can take everything with you at any point.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What we look after</h2>
+      <ul class="prose">
+        <li><strong>The computer.</strong> Your Little Dipper gets a machine and a disk of its own on {HOST_PARTNER}, a cloud company that runs apps for businesses around the world. Nobody else’s data is on it.</li>
+        <li><strong>Updates.</strong> We install new versions of Little Dipper for you.</li>
+        <li><strong>Backups.</strong> Your Little Dipper backs itself up every night, and reminds you to keep a copy on your own computer. Coming soon: a copy kept with a second company, {BACKUP_PARTNER}, so one problem can never take your life with it.</li>
+        <li><strong>Help.</strong> Tell us what’s wrong from inside your Little Dipper, with a picture of your screen if it helps (blurred unless you say otherwise).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What stays yours</h2>
+      <ul class="prose">
+        <li><strong>Your data.</strong> It lives on your Little Dipper, not in a shared database. We don’t sell it, mine it or show you ads.</li>
+        <li><strong>Your keys.</strong> Your passkey and recovery kit are what unlock it. Keep your recovery kit somewhere safe: nobody, including us, can unlock your Little Dipper without it.</li>
+        <li><strong>Your way out.</strong> A backup and your recovery kit bring your Little Dipper back anywhere: your own cloud account, your own computer, or back here. Everything comes with it.</li>
+      </ul>
+    </section>
+
+    <section class="faq">
+      <h2>Questions people ask</h2>
+      <details>
+        <summary>Can you see my data?</summary>
+        <p>We don’t look at it, and nothing we build reads what’s inside your Little Dipper. But we’re honest about how cloud hosting works: whoever runs a computer, whether that’s us, {HOST_PARTNER}, Amazon, Google or any other cloud, can technically reach what’s on it. That’s true of every app you use in the cloud. Here’s <a href={`${base}/protect`}>how we protect your data</a> and what we do about it.</p>
+      </details>
+      <details>
+        <summary>What happens if I don’t pay after the trial?</summary>
+        <p>You get a grace period with a clear note inside your Little Dipper. After that it goes to sleep: nothing is deleted, and paying wakes it right back up. We never lose your life over a missed payment.</p>
+      </details>
+      <details>
+        <summary>What if Big Dipper goes away?</summary>
+        <p>Little Dipper is free, open-source software that runs anywhere. Your backup and recovery kit work without us, so you can bring your Little Dipper back on your own cloud account or computer. Your Little Dipper is built to outlast any company, including us.</p>
+      </details>
+      <details>
+        <summary>Can I move it later?</summary>
+        <p>Yes, whenever you like, with everything in it. Save a backup and your recovery kit, then restore them on your new home. People you’re connected with are told your new address automatically.</p>
+      </details>
+      <details>
+        <summary>What’s the address of my Little Dipper?</summary>
+        <p>For now, an address like <code>ld-1a2b3c4d.fly.dev</code>. When we move hosted Little Dippers to our own address, you’ll sign in once with your recovery codes and make a new passkey. Your data and connections carry over untouched.</p>
+      </details>
+      <details>
+        <summary>Who is behind this?</summary>
+        <p>Big Dipper is the home of Little Dipper, an open-source project. Your Little Dipper runs on {HOST_PARTNER}’s cloud, and you can read every line of the code that sets it up and looks after it.</p>
+      </details>
+    </section>
+
+    <div class="actions" style="margin: 30px 0 10px"><a class="btn btn-primary btn-lg" href={`${base}/start`}>Get my Little Dipper</a></div>
+  </div>
+</Base>

@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { HOST_PARTNER } from '../lib/config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="How we protect your data · Little Dipper" description="The honest limits of cloud hosting, and what Little Dipper and Big Dipper do about each one.">
+  <div class="narrow hero" style="padding-bottom: 6px">
+    <div class="kicker">How we protect your data</div>
+    <h1 style="font-size: clamp(34px, 5vw, 48px)">Plain answers about your data in the cloud.</h1>
+    <p class="lede">Every cloud service, from the biggest names to the smallest, comes with the same few limits. Most don’t mention them. We’d rather tell you, and show you what we do about each one.</p>
+  </div>
+
+  <div class="narrow">
+    <section>
+      <div class="pairs">
+        <div class="pair">
+          <div><div class="label">True of every cloud</div>Whoever runs a computer in the cloud can technically reach what’s on it. That’s the case for Amazon, Google, Microsoft and {HOST_PARTNER} alike, and for every app that runs on them.</div>
+          <div><div class="label">What we do</div>Your Little Dipper gets a computer and a disk of its own, so nobody else’s data is mixed with yours. Nothing we build reads what’s inside it. The code that sets up and looks after hosted Little Dippers is open for anyone to read and check. Coming soon: anything run inside your Little Dipper from outside it shows up in your own activity log.</div>
+        </div>
+        <div class="pair">
+          <div><div class="label">True of every cloud</div>Cloud computers keep copies of their disks for recovery, and a copy can be read by whoever holds it.</div>
+          <div><div class="label">What we do</div>Your Little Dipper’s own backups are encrypted, and only your recovery kit can open them. Coming: a Vault for your most sensitive things, locked with a key only you hold, so nobody but you could ever read them, us included.</div>
+        </div>
+        <div class="pair">
+          <div><div class="label">True of every AI</div>What you ask an AI assistant goes to the company that runs the model.</div>
+          <div><div class="label">What we do</div>You choose which AI to use, and Little Dipper tells you in plain words where your words go for each one. You decide what each assistant can see, and ID numbers and other secret details stay hidden from them unless you say otherwise.</div>
+        </div>
+        <div class="pair">
+          <div><div class="label">True of every company</div>Companies change, get bought or close.</div>
+          <div><div class="label">What we do</div>Little Dipper is free, open-source software. Your backup and recovery kit bring it back anywhere, without us, with everything in it.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What we promise</h2>
+      <ul class="prose">
+        <li><strong>We don’t look.</strong> Nobody at Big Dipper opens your Little Dipper or reads what’s in it.</li>
+        <li><strong>We don’t sell or share your data,</strong> and there are no ads. Your Little Dipper isn’t in a shared database to begin with.</li>
+        <li><strong>You can leave anytime,</strong> with everything in it, to your own cloud account or your own computer.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Want nobody else involved at all?</h2>
+      <p>Run your Little Dipper on <a href={`${base}/hosting/home`}>your own computer</a>. And later, we plan to offer hosting where even the cloud company running the computer can’t see inside.</p>
+    </section>
+  </div>
+</Base>

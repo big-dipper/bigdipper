@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import Level from '../../components/Level.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Your own computer · Little Dipper" description="Run your Little Dipper on a computer you own. Free to run, fully yours, and fully up to you.">
+  <div class="narrow hero" style="padding-bottom: 6px">
+    <div class="kicker">Your own computer</div>
+    <h1 style="font-size: clamp(36px, 5vw, 52px)">Your Little Dipper, on a computer you own.</h1>
+    <p class="lede">The most independent way to have a Little Dipper, and the most hands-on. You run it yourself, and it answers to nobody but you.</p>
+    <p style="margin-top: 18px"><Level of={3} label="Technical: comfortable with servers" /></p>
+  </div>
+
+  <div class="narrow">
+    <section>
+      <h2>What you get</h2>
+      <ul class="prose">
+        <li><strong>No monthly bill.</strong> It runs on hardware you already have, for the cost of a little electricity.</li>
+        <li><strong>It’s physically yours.</strong> Your life lives in your home, on your own machine, not on anyone else’s computer.</li>
+        <li><strong>Nobody in the middle.</strong> No hosting company, and no us. Just you and the people you choose to connect with.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What it asks of you</h2>
+      <ul class="prose">
+        <li><strong>Some technical comfort.</strong> Today it runs with Docker, and you’ll need to make it reachable from the internet securely, with a proper web address, so passkeys and your connections work.</li>
+        <li><strong>Looking after it.</strong> Updates, keeping it running, and keeping a backup somewhere other than that one computer are all up to you.</li>
+        <li><strong>A computer that stays on.</strong> A spare PC, a Mac mini or a small home server works well. A laptop you close at night doesn’t.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>You’re on your own, for now</h2>
+      <p>We don’t have a step-by-step guide for this path yet. If you know your way around servers, the <a href="https://github.com/big-dipper/littledipper#readme">Little Dipper README</a> has what you need. If that sounds like a lot, that’s fair: start with <a href={`${base}/hosting/managed`}>us hosting it</a> and move it home later, with everything in it.</p>
+    </section>
+  </div>
+</Base>

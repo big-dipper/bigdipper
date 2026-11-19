@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import { DEMO_URL } from '../lib/config';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+/** Screenshots from the demo. Missing files show nothing, so the page works before they're taken. */
+const shot = (name: string) => `${base}/screens/${name}.png`;
+---
+<Base title="Your assistant · Little Dipper" description="Pick any AI. Your life stays with you. A chat panel beside every page of your Little Dipper, with the AI you choose.">
+  <div class="wrap hero" style="padding-bottom: 6px">
+    <div class="kicker">Your assistant</div>
+    <h1 style="font-size: clamp(36px, 5vw, 56px)">Pick any AI. Your life stays with you.</h1>
+    <p class="lede">An assistant sits beside every page of your Little Dipper, and it already knows the things you’ve kept. You choose which AI it is: the smartest, the cheapest or the most private. Switch whenever you like. Your life stays in your Little Dipper, not with an AI company.</p>
+    <div class="actions" style="margin-top: 20px">
+      <a class="btn btn-primary btn-lg" href={`${base}/hosting`}>Get your Little Dipper</a>
+      <a class="btn btn-secondary btn-lg" href={DEMO_URL}>Try the demo</a>
+    </div>
+  </div>
+
+  <section class="wrap">
+    <figure class="screen" style="margin: 0">
+      <div class="screen-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+      <img src={shot('assistant-panel')} width="1568" height="744" loading="lazy" alt="The assistant panel open beside Maya’s Little Dipper, listing her monthly bills and upcoming renewals." />
+      <figcaption><strong>Always one click away.</strong> Ask about the page you’re on, or anything else you’ve kept.</figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap">
+    <div class="kicker">What it does</div>
+    <h2>Help with the paperwork of life</h2>
+    <div class="asks-grid" style="margin-top: 18px">
+      <figure class="ask"><blockquote>“When does my passport expire, and what else is coming up?”</blockquote><figcaption>Answers from what you’ve kept: renewals, expiring IDs, birthdays and bills.</figcaption></figure>
+      <figure class="ask"><blockquote>Drop in a document</blockquote><figcaption>A receipt, a policy, a photo of a card. It reads it and suggests where it goes. You approve right in the conversation.</figcaption></figure>
+      <figure class="ask"><blockquote>Bring in your people</blockquote><figcaption>Hand it your contacts file and it adds the people in your life. Changed your mind? Undo the whole import.</figcaption></figure>
+      <figure class="ask"><blockquote>Select part of an answer</blockquote><figcaption>Reply to just that bit, or turn it into a task with one click.</figcaption></figure>
+      <figure class="ask"><blockquote>Your own way of working</blockquote><figcaption>Give it standing instructions, and save the questions you ask often.</figcaption></figure>
+      <figure class="ask"><blockquote>“Help me fill in this rental application.”</blockquote><figcaption>Pulls your past addresses, jobs and references, for you to check.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="kicker">You choose the AI</div>
+    <h2>The best answers, the lowest cost or the most privacy</h2>
+    <p class="note" style="margin-top: -4px">Use one, or a different one for each kind of job. Switch anytime from the panel.</p>
+    <div class="choices">
+      <div class="choice"><h3>Best answers</h3><p style="margin: 0">Claude or ChatGPT, the leading models, for the questions that matter most.</p></div>
+      <div class="choice"><h3>Lowest cost</h3><p style="margin: 0">Smaller open models through services like OpenRouter, for everyday questions at a much lower price.</p></div>
+      <div class="choice"><h3>Most private</h3><p style="margin: 0">Services that promise not to keep or learn from your words, or a model running on a computer you control.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="kicker">No surprises</div>
+    <h2>You always know what it costs and where your words go</h2>
+    <div class="split" style="display: grid; grid-template-columns: minmax(0, 420px) 1fr; gap: 28px; align-items: center; margin-top: 18px">
+      <figure class="screen" style="margin: 0">
+        <div class="screen-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <img src={shot('assistant-where')} width="519" height="811" loading="lazy" alt="The assistant panel's note for Claude: your words go to Anthropic, encrypted on the way, what it can see and do, and at the bottom what this conversation has cost so far." />
+      </figure>
+      <ul class="prose" style="margin: 0">
+        <li><strong>Where your words go.</strong> For each model, a plain note: which company runs it, how your words travel, what that company does with them, and what the assistant can see and do in your Little Dipper.</li>
+        <li><strong>What it costs.</strong> Every conversation shows what it has cost so far, counted the way the AI company counts it. This one: about a cent.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="band">
+      <div class="kicker">Bring your own key</div>
+      <h2>Pay only for what you use</h2>
+      <ul class="prose" style="max-width: 760px">
+        <li><strong>No AI subscription from us.</strong> You add a key from the AI company and pay them directly, only for what you use.</li>
+        <li><strong>It asks before it changes anything.</strong> It starts out seeing everything except secret details, and its changes wait for your OK. Change that on its page anytime.</li>
+        <li><strong>Every change is logged</strong> and can be undone.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="kicker">Already have an assistant?</div>
+    <h2>Connect the one you already use</h2>
+    <p class="lede" style="font-size: 18px">Claude, ChatGPT, Muse and other assistants can connect to your Little Dipper too, with the same limits, the same approvals and the same log. You decide what each one sees and does.</p>
+    <div class="actions"><a class="btn btn-primary btn-lg" href={`${base}/hosting`}>Get your Little Dipper</a></div>
+  </section>
+</Base>
