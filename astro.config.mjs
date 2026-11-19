@@ -38,7 +38,7 @@ export default defineConfig({
         { label: 'Start here', items: ['docs', 'docs/your-little-dipper', 'docs/quickstart'] },
         {
           label: 'How it works',
-          items: ['docs/concepts/records', 'docs/concepts/privacy', 'docs/concepts/people-and-sharing', 'docs/concepts/compatibility'],
+          items: ['docs/concepts/records', 'docs/concepts/privacy', 'docs/concepts/people-and-sharing', 'docs/concepts/compatibility', 'docs/concepts/stack'],
         },
         {
           label: 'Build on it',
