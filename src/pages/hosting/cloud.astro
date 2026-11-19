@@ -4,9 +4,14 @@ import Level from '../../components/Level.astro';
 import { RAILWAY_MONTHLY } from '../../lib/config';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const others: [string, string, string][] = [
-  ['Render', 'About $7–8 a month', 'A starter service plus a small disk.'],
+  ['Amazon Web Services (AWS)', 'About $5–10 a month', 'A small Lightsail or EC2 server with a disk.'],
+  ['Google Cloud', 'About $7–15 a month', 'A small Compute Engine machine, or Cloud Run with a disk.'],
+  ['Microsoft Azure', 'About $8–15 a month', 'A small virtual machine, or Container Apps with storage.'],
+  ['DigitalOcean', 'About $4–6 a month', 'A small server (a Droplet) you look after yourself.'],
   ['Fly.io', 'About $4–5 a month', 'A small machine plus a small disk.'],
-  ['DigitalOcean', 'About $4–6 a month', 'A small server you look after yourself.'],
+  ['Render', 'About $7–8 a month', 'A starter service plus a small disk.'],
+  ['Hetzner', 'About $4–6 a month', 'A small cloud server you look after yourself.'],
+  ['Akamai (Linode)', 'About $5–7 a month', 'A small server you look after yourself.'],
 ];
 ---
 <Base title="Your own cloud account · Little Dipper" description="Run your Little Dipper in your own account with a hosting company. Guided on Railway, about ten minutes and about $5 a month.">
@@ -45,14 +50,16 @@ const others: [string, string, string][] = [
 
     <section>
       <h2>Other hosting companies</h2>
-      <p>Little Dipper runs on any cloud that runs Docker. Step-by-step guides for these are coming. If you’re comfortable with servers already, the <a href="https://github.com/big-dipper/littledipper#readme">Little Dipper README</a> covers what you need today.</p>
-      <table class="compare">
-        <thead><tr><th>Company</th><th>Rough cost</th><th>What you’d set up</th><th>Guide</th></tr></thead>
-        <tbody>
-          {others.map(([name, cost, what]) => <tr><th>{name}</th><td>{cost}</td><td>{what}</td><td>Coming</td></tr>)}
-        </tbody>
-      </table>
-      <p class="note" style="margin-top: 10px">Costs are rough estimates for a small Little Dipper, paid to the company each month. Check their current prices before you start.</p>
+      <p>Little Dipper runs on any cloud that runs Docker, including all the big names. <strong>If you’re comfortable with servers, you can use any of these today:</strong> the <a href="https://github.com/big-dipper/littledipper#readme">Little Dipper README</a> covers what you need. <strong>Step-by-step guides for everyone else are coming.</strong></p>
+      <div style="overflow-x: auto">
+        <table class="compare">
+          <thead><tr><th>Company</th><th>Rough cost</th><th>What you’d set up</th><th>Today</th></tr></thead>
+          <tbody>
+            {others.map(([name, cost, what]) => <tr><th>{name}</th><td>{cost}</td><td>{what}</td><td>Works now, if you know servers. Guide coming.</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top: 10px">Costs are rough estimates for one small Little Dipper, paid to the company each month. Some offer free tiers or credits for new accounts. Check their current prices before you start.</p>
     </section>
   </div>
 </Base>
