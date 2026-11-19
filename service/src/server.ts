@@ -15,7 +15,8 @@
  *   FLY_API_TOKEN, FLY_ORG, FLY_REGION   turn on Big Dipper Hosting (POST /hosting/start). BD_HOSTING_IMAGE picks the
  *                        Little Dipper release; BD_HOSTING_PER_IP_PER_DAY limits new nodes per address (default 3);
  *                        BD_SITE_ORIGINS lists the site addresses allowed to call it from a browser.
- *                        BD_HOSTING_INVITES: comma-separated invite codes; when set, a node needs one (?invite=).
+ *                        BD_HOSTING_INVITE_ONLY=1 with BD_HOSTING_INVITES (comma-separated codes) requires an invite
+ *                        (?invite=); off by default. BD_HOSTING_MAX_PER_DAY caps new nodes overall (default 25).
  *   PORT                 default 4500
  */
 import Fastify from 'fastify';
@@ -74,7 +75,11 @@ if (host) {
   const image = env.BD_HOSTING_IMAGE || 'ghcr.io/big-dipper/littledipper:latest';
   const perIpPerDay = Number(env.BD_HOSTING_PER_IP_PER_DAY || 3);
   const recent = new Map<string, number[]>();
-  const invites = (env.BD_HOSTING_INVITES || '').split(',').map((s) => s.trim()).filter(Boolean);
+  // Invites only if BD_HOSTING_INVITE_ONLY=1 (owner, Nov 19: the start page stays open, so the experience is real).
+  const invites = env.BD_HOSTING_INVITE_ONLY === '1' ? (env.BD_HOSTING_INVITES || '').split(',').map((s) => s.trim()).filter(Boolean) : [];
+  // A daily cap on new nodes overall, so a robot that finds the page can't run up the bill.
+  const maxPerDay = Number(env.BD_HOSTING_MAX_PER_DAY || 25);
+  let made: number[] = [];
   // Every ten minutes, remove nodes nobody claimed within the hour.
   setInterval(() => { removeUnclaimed(host, 3600_000, (m) => app.log.info(m)).catch((e) => app.log.warn({ err: String(e) }, 'unclaimed cleanup failed')); }, 10 * 60_000).unref();
   const siteOrigins = (env.BD_SITE_ORIGINS || 'https://bigdipper.onrender.com').split(',').map((s) => s.trim());
@@ -84,11 +89,17 @@ if (host) {
     // While we open up slowly, a node needs an invite code (?invite=, so the browser sends no preflight).
     const invite = String((req.query as { invite?: string }).invite || '').trim();
     if (invites.length && !invites.includes(invite)) return reply.code(403).send({ error: 'invite_needed', message: 'We’re opening up slowly. Ask the person who told you about Little Dipper for an invite link.' });
+    made = made.filter((t) => Date.now() - t < 86400_000);
+    if (made.length >= maxPerDay) {
+      app.log.warn({ maxPerDay }, 'daily cap on new hosted nodes reached');
+      return reply.code(429).send({ error: 'busy_today', message: 'We’ve set up all the new Little Dippers we can today. Please try again tomorrow.' });
+    }
     // A brake on someone creating nodes in a loop. Stateless, so it resets when the service restarts.
     const now = Date.now();
     const times = (recent.get(req.ip) || []).filter((t) => now - t < 86400_000);
     if (times.length >= perIpPerDay) return reply.code(429).send({ error: 'too_many', message: 'That’s a lot of new Little Dippers from one place today. Try again tomorrow, or write to us.' });
     recent.set(req.ip, [...times, now]);
+    made.push(Date.now());
     const node = await host.createNode({ image, env: { LD_HOSTED_BY: 'bigdipper', LD_BIG_DIPPER_URL: address } });
     await waitUntilAnswering(node.url);
     app.log.info({ node: node.id, region: node.region }, 'hosted node created');
